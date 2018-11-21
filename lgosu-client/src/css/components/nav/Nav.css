@@ -1,0 +1,53 @@
+#nav {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  background: #2b2b2b;
+}
+
+#nav button {
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: none;
+  width: 80px;
+  height: 40px;
+  color: #a4a4a4;
+  font-size: 14px;
+  text-decoration: none;
+}
+#nav button:hover {
+  color: white;
+}
+
+#nav button:active {
+  /* background: none;
+  border: none; */
+}
+
+#nav form {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  height: 40px;
+  right: 70px;
+}
+#nav form input {
+  width: 100px;
+  margin-left: 5px;
+  height: 14px;
+}
+
+#nav #logoBtn {
+  color: white;
+}
+
+#nav #loginBtn {
+}
+
+#nav #joinBtn {
+  position: absolute;
+  right: 0px;
+}
