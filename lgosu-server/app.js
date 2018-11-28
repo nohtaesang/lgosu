@@ -1,21 +1,28 @@
 const express = require("express");
-const app = express();
-const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const logger = require("morgan");
 
-const User = require("./models/user");
+const app = express();
+const port = process.env.PORT || 3001;
+
+const dbRoute = "mongodb://nohtaesang:shxotkd1!@ds249565.mlab.com:49565/lgosu";
+app.use(express.static("public"));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+mongoose.Promise = global.Promise;
 
-const port = process.env.PORT || 8080;
-const router = require("./routes")(app, User);
-const server = app.listen(port, () => {
-  console.log("Express server has started on port " + port);
-});
+mongoose
+  .connect(
+    dbRoute,
+    { useNewUrlParser: true }
+  )
+  .then(() => console.log("Successfully connected to mongodb"))
+  .catch(e => console.error(e));
 
-const db = mongoose.connection;
-db.on("error", console.error);
-db.once("opne", () => {
-  console.log("Connected to mongod server");
-});
-mongoose.connect("mongodb://localhost/lgosu");
+require("./routes")(app);
+
+app.listen(port, () => console.log("Server listening on port " + port));
