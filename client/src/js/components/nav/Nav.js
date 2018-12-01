@@ -1,17 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { navMovePage, loginEmailChange, loginPasswordChange } from '../../actions/NavActions';
-import '../../../css/components/nav/Nav.css';
-
-const mapDispatchToProps = dispatch => ({
-    navMovePage: state => dispatch(navMovePage(state)),
-    loginEmailChange: state => dispatch(loginEmailChange(state)),
-    loginPasswordChange: state => dispatch(loginPasswordChange(state)),
-});
-
-const mapStateToProps = state => ({
-    login: state.login,
-});
 
 class ConnectedNav extends Component {
     constructor() {
@@ -75,9 +63,6 @@ class ConnectedNav extends Component {
     }
 }
 
-const Nav = connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(ConnectedNav);
+const Nav = connect(null)(ConnectedNav);
 
 export default Nav;

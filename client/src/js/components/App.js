@@ -1,13 +1,12 @@
 import React from 'react';
 import Nav from './nav/Nav';
-import Join from './container/Join';
-import Prediction from './container/Prediction';
+import Admin from './container/admin/Admin';
 import '../../css/components/App.css';
 
 const App = () => (
     <div id="app">
-        <Nav />
-        <Prediction />
+        {/* <Nav /> */}
+        <Admin />
     </div>
 );
 
