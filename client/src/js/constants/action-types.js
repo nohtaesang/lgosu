@@ -1,3 +1,0 @@
-// export const ADMIN_ADD_MATCH = 'ADMIN_ADD_MATCH';
-
-export const ADMIN_LOAD_MATCH_LIST = 'ADMIN_LOAD_MATCH_LIST';

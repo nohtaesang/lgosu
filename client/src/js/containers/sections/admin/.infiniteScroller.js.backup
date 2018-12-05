@@ -1,0 +1,79 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+class ConnectedInfiniteScroller extends Component {
+    constructor() {
+        super();
+
+        // this.scrollListner = this.scrollListner.bind(this);
+    }
+
+    componentDidMount() {
+        this.pageLoaded = 0;
+        this.attachScrollListener();
+    }
+
+    componentDidUpdate() {
+        this.attachScrollListener();
+    }
+
+    componentWillUnmount() {
+        this.detachMousewheelListener();
+        this.detachScrollListener();
+    }
+
+    // setDefaultLoader(loader) {
+    //     this.defaultLoader = loader;
+    //     console.log('z');
+    // }
+
+    getParentElement(el) {
+        const scrollParent = this.props.getScrollParent && this.props.getScrollParent();
+
+        if (scrollParent !== null) {
+            return scrollParent;
+        }
+        return el && el.parentNode;
+    }
+
+    detachMousewheelListener() {
+        const scrollEl = window;
+    }
+
+    detachScrollListener() {
+        const scrollEl = window;
+    }
+
+    attachScrollListener() {
+        const scrollEl = window;
+        scrollEl.addEventListener('mousewheel', this.mousewheelListener);
+        scrollEl.addEventListener('scroll', this.scrollListener);
+        scrollEl.addEventListener('resize', this.scrollListener);
+        // this.scrollListener();
+    }
+
+    mousewheelListener(e) {
+        if (e.deltaY === 1) {
+            e.preventDefault();
+        }
+    }
+
+    scrollListener() {
+        const el = this.scrollComponent;
+        const scrollEl = window;
+        const doc = document.documentElement || document.body.parentNode || document.body;
+        const scrollTop = scrollEl.pageYOffset !== undefined ? scrollEl.pageYOffset : doc.scrollTop;
+
+        const adminMatchList = document.getElementById('adminMatchList');
+        console.log(scrollEl.pageYOffset + window.innerHeight);
+        console.log(adminMatchList.scrollHeight);
+    }
+
+    render() {
+        return <div id="infiniteScroller" />;
+    }
+}
+
+const InfiniteScroller = connect(null)(ConnectedInfiniteScroller);
+
+export default InfiniteScroller;
