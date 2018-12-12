@@ -1,0 +1,26 @@
+import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as matchAction from '../../../modules/match';
+
+
+class ConnectedMain extends Component {
+  
+    render() {
+        return (
+            <div id="main">
+            </div>
+        );
+    }
+}
+
+export default connect(
+    state => ({
+        matchList: state.match.matchList,
+        numberOfMatches: state.match.numberOfMatches,
+        loading: state.pender.pending.GET_MATCH_LIST
+    }),
+    dispatch => ({
+        MatchAction: bindActionCreators(matchAction, dispatch)
+    })
+)(ConnectedMain);

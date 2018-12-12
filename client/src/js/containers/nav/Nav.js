@@ -1,68 +1,46 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import * as commonAction from '../../modules/common';
+import './nav.css';
 
 class ConnectedNav extends Component {
-    constructor() {
-        super();
+	constructor() {
+		super();
+	}
 
-        this.textBoxChange = this.textBoxChange.bind(this);
-        this.clickLogo = this.clickLogo.bind(this);
-        this.clickJoin = this.clickJoin.bind(this);
-    }
-
-    componentDidMount() {}
-
-    textBoxChange(e) {
-        const { name, value } = e.target;
-
-        if (name === 'email') {
-            this.props.loginEmailChange(value);
-        } else if (name === 'password') {
-            this.props.loginPasswordChange(value);
-        }
-    }
-
-    clickLogo() {
-        const { props } = this;
-        props.navMovePage('index');
-    }
-
-    clickJoin() {
-        const { props } = this;
-        props.navMovePage('join');
-    }
-
-    render() {
-        // const { loginEmail, loginPassword } = this.props.login;
-        // console.log(login);
-        console.log(this.props);
-        return (
-            <div id="nav">
-                <button id="logoBtn" type="button" onClick={this.clickLogo}>
-                    {'LGOSU'}
-                </button>
-
-                <form>
-                    <input
-                        type="email"
-                        placeholder="email"
-                        name="email"
-                        onChange={this.textBoxChange}
-                    />
-                    <input type="password" placeholder="password" />
-                    <button id="loginBtn" type="button">
-                        {'Login'}
-                    </button>
-                </form>
-
-                <button id="joinBtn" type="button" onClick={this.clickJoin}>
-                    {'Join'}
-                </button>
-            </div>
-        );
-    }
+	render() {
+		const { curPage, isLogin, CommonAction } = this.props;
+		console.log(isLogin);
+		return (
+			<div id="nav">
+				<div onClick={() => CommonAction.movePage('index')}>logo</div>
+				{!isLogin ? (
+					<div id="login">
+						<input />
+						<input />
+						<button type="button">login</button>
+					</div>
+				) : null}
+				{!isLogin ? (
+					<div id="join">
+						<button type="button">join</button>
+					</div>
+				) : null}
+				<button type="button" onClick={() => CommonAction.toggleIsAdmin()}>
+					{'isAdmin'}
+				</button>
+			</div>
+		);
+	}
 }
 
-const Nav = connect(null)(ConnectedNav);
-
-export default Nav;
+export default connect(
+	state => ({
+		curPage: state.common.curPage,
+		isLogin: state.common.isLogin
+	}),
+	dispatch => ({
+		CommonAction: bindActionCreators(commonAction, dispatch)
+	})
+)(ConnectedNav);

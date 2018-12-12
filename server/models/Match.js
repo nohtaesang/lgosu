@@ -5,6 +5,7 @@ var MatchSchema = new mongoose.Schema({
   time: { type: String },
   home: { type: String },
   away: { type: String },
+  maxSet: { type: Number },
   winnerPredictions: [
     new mongoose.Schema(
       {
