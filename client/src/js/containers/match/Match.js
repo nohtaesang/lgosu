@@ -21,8 +21,8 @@ class ConnectedMatch extends Component {
 }
 
 export default connect(
-	state => ({
+	(state) => ({
 		isAdmin: state.common.isAdmin
 	}),
-	dispatch => ({})
+	(dispatch) => ({})
 )(ConnectedMatch);

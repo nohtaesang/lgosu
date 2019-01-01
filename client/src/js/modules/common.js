@@ -5,7 +5,7 @@ import axios from 'axios';
 const MOVE_PAGE = 'MOVE_PAGE';
 const TOGGLE_IS_ADMIN = 'TOGGLE_IS_ADMIN';
 
-export const movePage = page => ({
+export const movePage = (page) => ({
 	type: MOVE_PAGE,
 	payload: page
 });
@@ -21,7 +21,7 @@ const initialState = {
 		email: 'nohtaesang@naver.com',
 		money: 24053000
 	},
-	isAdmin: false
+	isAdmin: true
 };
 
 export default handleActions(

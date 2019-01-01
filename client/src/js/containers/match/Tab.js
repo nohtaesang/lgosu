@@ -4,14 +4,11 @@ import { connect } from 'react-redux';
 import * as matchAction from '../../modules/match';
 
 class ConnectedTab extends Component {
-	setMatchOption = async option => {
+	setMatchOption = async (option) => {
 		const { MatchAction } = this.props;
 		try {
 			await MatchAction.setMatchOption(option);
-			await MatchAction.getMatchList(
-				this.props.numberOfMatches,
-				this.props.matchOption
-			);
+			await MatchAction.getMatchList(this.props.numberOfMatches, this.props.matchOption);
 		} catch (e) {
 			console.log('err');
 		}
@@ -20,9 +17,6 @@ class ConnectedTab extends Component {
 	render() {
 		return (
 			<div id="tab">
-				<button type="button" onClick={() => this.setMatchOption('all')}>
-					{'전체 경기'}
-				</button>
 				<button type="button" onClick={() => this.setMatchOption('betting')}>
 					{'진행중'}
 				</button>
@@ -32,17 +26,20 @@ class ConnectedTab extends Component {
 				<button type="button" onClick={() => this.setMatchOption('matchEnd')}>
 					{'경기 종료'}
 				</button>
+				<button type="button" onClick={() => this.setMatchOption('all')}>
+					{'전체 경기'}
+				</button>
 			</div>
 		);
 	}
 }
 
 export default connect(
-	state => ({
+	(state) => ({
 		numberOfMatches: state.match.numberOfMatches,
 		matchOption: state.match.matchOption
 	}),
-	dispatch => ({
+	(dispatch) => ({
 		MatchAction: bindActionCreators(matchAction, dispatch)
 	})
 )(ConnectedTab);

@@ -18,10 +18,7 @@ class ConnectedMatchList extends Component {
 	getMatchList = async () => {
 		const { MatchAction } = this.props;
 		try {
-			await MatchAction.getMatchList(
-				this.props.numberOfMatches,
-				this.props.matchOption
-			);
+			await MatchAction.getMatchList(this.props.numberOfMatches, this.props.matchOption);
 		} catch (e) {
 			console.log('err');
 		}
@@ -31,10 +28,7 @@ class ConnectedMatchList extends Component {
 		const { MatchAction } = this.props;
 		try {
 			await MatchAction.getMoreMatchList();
-			await MatchAction.getMatchList(
-				this.props.numberOfMatches,
-				this.props.matchOption
-			);
+			await MatchAction.getMatchList(this.props.numberOfMatches, this.props.matchOption);
 		} catch (e) {
 			console.log('err');
 		}
@@ -42,14 +36,12 @@ class ConnectedMatchList extends Component {
 
 	render() {
 		const { matchList, numberOfMatches, loading } = this.props;
-
+		// console.log(matchList[matchList.length - 1].date.getHour());
 		return (
 			<div id="matchList">
-				{this.props.matchList
-					? this.props.matchList.map((match, i) => (
-						<MatchItem key={match._id} index={i} />
-					  ))
-					: null}
+				{this.props.matchList ? (
+					this.props.matchList.map((match, i) => <MatchItem key={match._id} match={match} />)
+				) : null}
 				{loading ? <p>loading...</p> : null}
 				{!loading && matchList.length === numberOfMatches ? (
 					<button type="button" name="loadMore" onClick={this.getMoreMatchList}>
@@ -62,13 +54,13 @@ class ConnectedMatchList extends Component {
 }
 
 export default connect(
-	state => ({
+	(state) => ({
 		matchList: state.match.matchList,
 		matchOption: state.match.matchOption,
 		numberOfMatches: state.match.numberOfMatches,
 		loading: state.pender.pending.GET_MATCH_LIST
 	}),
-	dispatch => ({
+	(dispatch) => ({
 		MatchAction: bindActionCreators(matchAction, dispatch)
 	})
 )(ConnectedMatchList);

@@ -1,33 +1,44 @@
 import React, { Component } from 'react';
+import DatePicker from 'react-datepicker';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as matchAction from '../../modules/match';
+import '../../../../node_modules/react-datepicker/dist/react-datepicker.css';
 
 class ConnectedMatchAddForm extends Component {
 	constructor() {
 		super();
 		this.state = {
-			date: '',
-			time: '',
+			category: '',
+			date: new Date(),
+			hour: '',
 			home: '',
-			away: '',
-			maxSet: ''
+			away: ''
 		};
 		this.handleChange = this.handleChange.bind(this);
+		this.handleDateChange = this.handleDateChange.bind(this);
 	}
 
 	addMatch = async () => {
 		const { MatchAction, numberOfMatches, matchOption } = this.props;
-		const { date, time, home, away, maxSet } = this.state;
+		const { category, date, hour, home, away } = this.state;
+		const newDate = new Date(date.setHours(hour));
+		const bettingOption = [];
+
+		if (category === 'lck') {
+			// TODO: update bettingOption
+		}
+
+		console.log(newDate);
 		try {
-			await MatchAction.addMatch(date, time, home, away, maxSet);
-			await MatchAction.getMatchList(numberOfMatches, matchOption);
+			// console.log(newDate);
+			await MatchAction.addMatch(category, newDate, home, away);
+			// await MatchAction.getMatchList(numberOfMatches, matchOption);
 			await this.setState({
-				date: '',
+				category: '',
 				time: '',
 				home: '',
-				away: '',
-				maxSet: ''
+				away: ''
 			});
 		} catch (e) {
 			console.log('err');
@@ -37,11 +48,11 @@ class ConnectedMatchAddForm extends Component {
 	handleChange(e) {
 		const { name, value } = e.target;
 		switch (name) {
-			case 'date':
-				this.setState({ date: value });
+			case 'category':
+				this.setState({ category: value });
 				break;
-			case 'time':
-				this.setState({ time: value });
+			case 'hour':
+				this.setState({ hour: value });
 				break;
 			case 'home':
 				this.setState({ home: value });
@@ -49,34 +60,27 @@ class ConnectedMatchAddForm extends Component {
 			case 'away':
 				this.setState({ away: value });
 				break;
-			case 'maxSet':
-				this.setState({ maxSet: value });
-				break;
 			default:
 				break;
 		}
 	}
 
+	handleDateChange(date) {
+		const newDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
+
+		this.setState({ date: newDate });
+	}
+
 	render() {
 		return (
 			<div id="matchAddForm">
-				<input
-					type="date"
-					name="date"
-					onChange={this.handleChange}
-					value={this.state.date}
-				/>
-				<input
-					type="time"
-					name="time"
-					onChange={this.handleChange}
-					value={this.state.time}
-				/>
-				<select
-					onChange={this.handleChange}
-					name="home"
-					value={this.state.home}
-				>
+				<select onChange={this.handleChange} name="category" value={this.state.category}>
+					<option value="">category</option>
+					<option value="lck">LCK</option>
+				</select>
+				<DatePicker selected={this.state.date} onChange={this.handleDateChange} />
+				<input onChange={this.handleChange} type="number" name="hour" value={this.state.hour} />
+				<select onChange={this.handleChange} name="home" value={this.state.home}>
 					<option value="">home</option>
 					<option value="kt">케이티</option>
 					<option value="griffin">그리핀</option>
@@ -89,11 +93,7 @@ class ConnectedMatchAddForm extends Component {
 					<option value="damwon">담원</option>
 					<option value="battlecomics">배틀코믹스</option>
 				</select>
-				<select
-					onChange={this.handleChange}
-					name="away"
-					value={this.state.away}
-				>
+				<select onChange={this.handleChange} name="away" value={this.state.away}>
 					<option value="">away</option>
 					<option value="kt">케이티</option>
 					<option value="griffin">그리핀</option>
@@ -106,15 +106,6 @@ class ConnectedMatchAddForm extends Component {
 					<option value="damwon">담원</option>
 					<option value="battlecomics">배틀코믹스</option>
 				</select>
-				<select
-					onChange={this.handleChange}
-					name="maxSet"
-					value={this.state.maxSet}
-				>
-					<option value="">maxSet</option>
-					<option value="3">3</option>
-					<option value="5">5</option>
-				</select>
 				<button type="submit" onClick={() => this.addMatch()}>
 					{'등록'}
 				</button>
@@ -124,11 +115,11 @@ class ConnectedMatchAddForm extends Component {
 }
 
 export default connect(
-	state => ({
+	(state) => ({
 		numberOfMatches: state.match.numberOfMatches,
 		matchOption: state.match.matchOption
 	}),
-	dispatch => ({
+	(dispatch) => ({
 		MatchAction: bindActionCreators(matchAction, dispatch)
 	})
 )(ConnectedMatchAddForm);
