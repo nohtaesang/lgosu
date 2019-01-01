@@ -23,17 +23,20 @@ class ConnectedMatchAddForm extends Component {
 		const { MatchAction, numberOfMatches, matchOption } = this.props;
 		const { category, date, hour, home, away } = this.state;
 		const newDate = new Date(date.setHours(hour));
-		const bettingOption = [];
+		let bettingOptions = [];
 
 		if (category === 'lck') {
-			// TODO: update bettingOption
+			bettingOptions = bettingOptions.concat([
+				{ winner: home, looser: away, winnerScore: 2, looserScore: 0, money: 0 },
+				{ winner: home, looser: away, winnerScore: 2, looserScore: 1, money: 0 },
+				{ winner: away, looser: home, winnerScore: 2, looserScore: 0, money: 0 },
+				{ winner: away, looser: home, winnerScore: 2, looserScore: 1, money: 0 }
+			]);
 		}
 
-		console.log(newDate);
 		try {
-			// console.log(newDate);
-			await MatchAction.addMatch(category, newDate, home, away);
-			// await MatchAction.getMatchList(numberOfMatches, matchOption);
+			await MatchAction.addMatch(category, newDate, home, away, bettingOptions);
+			await MatchAction.getMatchList(numberOfMatches, matchOption);
 			await this.setState({
 				category: '',
 				time: '',
@@ -115,11 +118,11 @@ class ConnectedMatchAddForm extends Component {
 }
 
 export default connect(
-	(state) => ({
+	state => ({
 		numberOfMatches: state.match.numberOfMatches,
 		matchOption: state.match.matchOption
 	}),
-	(dispatch) => ({
+	dispatch => ({
 		MatchAction: bindActionCreators(matchAction, dispatch)
 	})
 )(ConnectedMatchAddForm);

@@ -12,7 +12,7 @@ class ConnectedMatch extends Component {
 		const { isAdmin } = this.props;
 		return (
 			<div id="match" className="container">
-				{isAdmin ? <MatchAddForm /> : null}
+				<MatchAddForm />
 				<Tab />
 				<MatchList />
 			</div>
@@ -21,8 +21,8 @@ class ConnectedMatch extends Component {
 }
 
 export default connect(
-	(state) => ({
+	state => ({
 		isAdmin: state.common.isAdmin
 	}),
-	(dispatch) => ({})
+	dispatch => ({})
 )(ConnectedMatch);

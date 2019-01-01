@@ -1,21 +1,4 @@
 #app {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-#app .left {
-  width: 25%;
-}
-
-#app .center {
-  width: 50%;
-}
-
-#app .right {
-  width: 25%;
-}
-
-.container {
-  border: 1px black solid;
-  margin: 5px;
+	display: flex;
+	justify-content: center;
 }

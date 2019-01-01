@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as matchAction from '../../modules/match';
 
 class ConnectedTab extends Component {
-	setMatchOption = async (option) => {
+	setMatchOption = async option => {
 		const { MatchAction } = this.props;
 		try {
 			await MatchAction.setMatchOption(option);
@@ -17,16 +17,16 @@ class ConnectedTab extends Component {
 	render() {
 		return (
 			<div id="tab">
-				<button type="button" onClick={() => this.setMatchOption('betting')}>
+				<button type="button" onClick={() => this.setMatchOption(0)}>
 					{'진행중'}
 				</button>
-				<button type="button" onClick={() => this.setMatchOption('bettingEnd')}>
+				<button type="button" onClick={() => this.setMatchOption(1)}>
 					{'경기중'}
 				</button>
-				<button type="button" onClick={() => this.setMatchOption('matchEnd')}>
+				<button type="button" onClick={() => this.setMatchOption(2)}>
 					{'경기 종료'}
 				</button>
-				<button type="button" onClick={() => this.setMatchOption('all')}>
+				<button type="button" onClick={() => this.setMatchOption(3)}>
 					{'전체 경기'}
 				</button>
 			</div>
@@ -35,11 +35,11 @@ class ConnectedTab extends Component {
 }
 
 export default connect(
-	(state) => ({
+	state => ({
 		numberOfMatches: state.match.numberOfMatches,
 		matchOption: state.match.matchOption
 	}),
-	(dispatch) => ({
+	dispatch => ({
 		MatchAction: bindActionCreators(matchAction, dispatch)
 	})
 )(ConnectedTab);

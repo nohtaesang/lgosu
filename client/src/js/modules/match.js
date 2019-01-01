@@ -10,9 +10,9 @@ const GET_MORE_MATCH_LIST = 'GET_MORE_MATCH_LIST';
 const DELETE_MATCH = 'DELETE_MATCH';
 const UPDATE_MATCH = 'UPDATE_MATCH';
 
-const BETTING = 'BETTING';
-
-export const setMatchOption = (option) => ({
+const BET = 'BET';
+const CANCEL_BET = 'CANCEL_BET';
+export const setMatchOption = option => ({
 	type: SET_MATCH_OPTION,
 	payload: option
 });
@@ -25,13 +25,14 @@ export const getMoreMatchList = () => ({
 	type: GET_MORE_MATCH_LIST
 });
 
-export const addMatch = (category, newDate, home, away) => ({
+export const addMatch = (category, newDate, home, away, bettingOptions) => ({
 	type: ADD_MATCH,
 	payload: axios.post('/addMatch', {
 		category,
 		date: newDate,
 		home,
-		away
+		away,
+		bettingOptions
 	})
 });
 
@@ -43,7 +44,7 @@ export const getMatchList = (numberOfMatches, option) => ({
 	})
 });
 
-export const deleteMatch = (id) => ({
+export const deleteMatch = id => ({
 	type: DELETE_MATCH,
 	payload: axios.post('/deleteMatch', {
 		id
@@ -58,13 +59,21 @@ export const updateMatch = (id, update) => ({
 	})
 });
 
-export const betting = (id, userEmail, option, money) => ({
-	type: BETTING,
-	payload: axios.post('/betting', {
+export const bet = (id, userEmail, option, money) => ({
+	type: BET,
+	payload: axios.post('/bet', {
 		id,
 		userEmail,
 		option,
 		money
+	})
+});
+
+export const cancelBet = (id, userEmail) => ({
+	type: CANCEL_BET,
+	payload: axios.post('/cancelBet', {
+		id,
+		userEmail
 	})
 });
 
@@ -118,7 +127,14 @@ export default handleActions(
 			})
 		}),
 		...pender({
-			type: BETTING,
+			type: BET,
+			onSuccess: (state, action) => {
+				console.log(action);
+				return { ...state };
+			}
+		}),
+		...pender({
+			type: CANCEL_BET,
 			onSuccess: (state, action) => {
 				console.log(action);
 				return { ...state };
