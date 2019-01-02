@@ -7,9 +7,6 @@ import * as userAction from '../../modules/user';
 class Logout extends Component {
 	constructor() {
 		super();
-		this.state = {
-			redirect: false
-		};
 	}
 
 	componentDidMount() {
@@ -21,11 +18,9 @@ class Logout extends Component {
 		}
 	}
 
-	renderRedirect = () => {
-		if (this.state.redirect) {
-			return <Redirect to="/" />;
-		}
-	};
+	renderRedirect() {
+		return <Redirect to="/" />;
+	}
 
 	render() {
 		return (
