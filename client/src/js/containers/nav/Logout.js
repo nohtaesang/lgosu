@@ -10,7 +10,7 @@ class Logout extends Component {
 
 	componentDidMount() {
 		const { UserAction, token } = this.props;
-		const naver_id_login = new window.naver_id_login('WyI9Zt0DgUshOZRrcaaL', encodeURI('http://54.81.41.223:3000'));
+		UserAction.getUserInfo(token);
 	}
 
 	clickLogout = () => {
