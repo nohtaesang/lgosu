@@ -20,14 +20,13 @@ class Nav extends Component {
 		naver_id_login.setDomain('http://54.81.41.223:3000');
 		naver_id_login.setState(state);
 		naver_id_login.init_naver_id_login();
-		// const { UserAction } = this.props;
-		// UserAction.getNaverLoginUrl();
+
+		naver_id_login.get_naver_userprofile('naverSignInCallback()');
 	}
 
 	naverSingInCallBack = () => {
 		const naver_id_login = new window.naver_id_login('WyI9Zt0DgUshOZRrcaaL', encodeURI('http://54.81.41.223:3000'));
 		console.log(naver_id_login.oauthParams.access_token);
-		naver_id_login.get_naver_userprofile('naverSignInCallback()');
 		console.log(naver_id_login.getProfileData('nickname'));
 		console.log(naver_id_login.getProfileData('email'));
 		console.log(naver_id_login.getProfileData('birth'));

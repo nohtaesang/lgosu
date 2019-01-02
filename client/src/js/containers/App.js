@@ -20,7 +20,7 @@ const App = () => (
 		<div id="right">
 			<Chatting />
 		</div>
-		{/* <DevTools /> */}
+		<DevTools />
 	</div>
 );
 
