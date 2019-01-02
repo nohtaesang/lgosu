@@ -10,7 +10,7 @@ class Logout extends Component {
 
 	componentDidMount() {
 		const { UserAction, token } = this.props;
-		UserAction.getUserInfo(token);
+		UserAction.getUserInfo(localStorage.token);
 	}
 
 	clickLogout = () => {
