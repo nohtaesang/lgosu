@@ -13,11 +13,19 @@ class Logout extends Component {
 		const naver_id_login = new window.naver_id_login('WyI9Zt0DgUshOZRrcaaL', encodeURI('http://54.81.41.223:3000'));
 	}
 
+	clickLogout = () => {
+		const { UserAction } = this.props;
+		localStorage.clear();
+		UserAction.setToken(null);
+	};
+
 	render() {
 		return (
 			<div id="logout">
 				<p>{this.props.email}</p>
-				<button type="button">logout</button>
+				<button type="button" onClick={this.clickLogout}>
+					{'logout'}
+				</button>
 			</div>
 		);
 	}
