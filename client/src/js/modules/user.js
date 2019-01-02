@@ -18,8 +18,7 @@ export const setEmail = email => ({
 
 export const getUserInfo = token => ({
 	type: GET_USER_INFO,
-	payload: axios.get({
-		url: 'https://openapi.naver.com/v1/nid/me',
+	payload: axios.get('https://openapi.naver.com/v1/nid/me', {
 		headers: { Authorization: `Bearer ${token}` }
 	})
 });
@@ -43,6 +42,10 @@ export default handleActions(
 		}),
 		...pender({
 			type: GET_USER_INFO,
+			onFailure: (state, action) => {
+				console.log(action);
+				return { ...state };
+			},
 			onSuccess: (state, action) => {
 				console.log(action);
 				return { ...state };
