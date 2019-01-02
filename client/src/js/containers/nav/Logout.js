@@ -22,7 +22,12 @@ class Logout extends Component {
 	naverSignInCallback = naver_id_login => {
 		const { UserAction } = this.props;
 
-		console.log(naver_id_login.getProfileData);
+		console.log(naver_id_login.getProfileData('email'));
+		console.log(naver_id_login.getProfileData('id'));
+		console.log(naver_id_login.getProfileData('nickname'));
+		console.log(naver_id_login.getProfileData('age'));
+
+		console.log(naver_id_login);
 		// UserAction.setEmail(naver_id_login.getProfileData('email'));
 	};
 
