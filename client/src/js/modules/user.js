@@ -6,9 +6,9 @@ const SET_TOKEN = 'SET_TOKEN';
 const SET_EMAIL = 'SET_EMAIL';
 const GET_USER_INFO = 'GET_USER_INFO';
 
-export const setToken = (token_type, access_token) => ({
+export const setToken = token => ({
 	type: SET_TOKEN,
-	payload: { token_type, access_token }
+	payload: token
 });
 
 export const setEmail = email => ({
@@ -16,10 +16,13 @@ export const setEmail = email => ({
 	payload: email
 });
 
-export const getUserInfo = (token_type, access_token) => ({
+export const getUserInfo = token => ({
 	type: GET_USER_INFO,
 	payload: axios.get('https://openapi.naver.com/v1/nid/me', {
-		headers: { Authorization: `Bearer ${token_type}${access_token}` }
+		options: {
+			// url: 'https://openapi.naver.com/v1/nid/me',
+			headers: { Authorization: `Bearer ${token}` }
+		}
 	})
 });
 
@@ -27,16 +30,14 @@ const initialState = {
 	email: null,
 	money: null,
 	isLogin: false,
-	token_type: null,
-	access_token: null
+	token: null
 };
 
 export default handleActions(
 	{
 		[SET_TOKEN]: (state, action) => ({
 			...state,
-			token_type: action.payload.token_type,
-			access_token: action.payload.access_token
+			token: action.payload
 		}),
 		[SET_EMAIL]: (state, action) => ({
 			...state,
