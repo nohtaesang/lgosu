@@ -16,7 +16,7 @@ module.exports = app => {
 	app.get('/naverLoginCallBack', (req, res) => {
 		const client_id = 'WyI9Zt0DgUshOZRrcaaL';
 		const client_secret = 'ZP1elynjbC';
-		const redirectURI = encodeURI('http://54.81.41.223:3000/');
+		const redirectURI = encodeURI('http://54.81.41.223:3001/naverLoginCallBack');
 		const code = req.query.code;
 		const state = req.query.state;
 		// console.log(req);
