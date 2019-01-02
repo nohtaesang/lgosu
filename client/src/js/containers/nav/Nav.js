@@ -16,12 +16,12 @@ class Nav extends Component {
 		const { UserAction, token } = this.props;
 		const naver_id_login = new window.naver_id_login('WyI9Zt0DgUshOZRrcaaL', encodeURI('http://54.81.41.223:3000'));
 		console.log(naver_id_login.oauthParams.access_token);
-		// if (token === null) {
-		// 	UserAction.setToken(naver_id_login.oauthParams.access_token);
-		// 	this.renderRedirect();
-		// } else {
-		// 	console.log(token);
-		// }
+		if (naver_id_login.oauthParams.access_token && token === null) {
+			UserAction.setToken(naver_id_login.oauthParams.access_token);
+			this.renderRedirect();
+		} else {
+			console.log(token);
+		}
 	}
 
 	renderRedirect() {
