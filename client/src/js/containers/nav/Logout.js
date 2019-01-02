@@ -7,8 +7,7 @@ import * as userAction from '../../modules/user';
 class Logout extends Component {
 	constructor() {
 		super();
-
-		window.naverSignInCallBack = this.naverSignInCallBack.bind(this);
+		window.naverSignInCallback = this.naverSignInCallback.bind(this);
 	}
 
 	componentDidMount() {
@@ -17,7 +16,7 @@ class Logout extends Component {
 		naver_id_login.get_naver_userprofile('naverSignInCallback()');
 	}
 
-	naverSignInCallBack = () => {
+	naverSignInCallback = () => {
 		const { UserAction } = this.props;
 		const naver_id_login = new window.naver_id_login('WyI9Zt0DgUshOZRrcaaL', encodeURI('http://54.81.41.223:3000'));
 		UserAction.setEmail(naver_id_login.getProfileData('email'));
