@@ -7,13 +7,13 @@ const CLICK_NAVER_LOGIN = 'CLICK_NAVER_LOGIN';
 
 export const getNaverLoginUrl = () => ({
 	type: GET_NAVER_LOGIN_URL,
-	payload: axios.post('/naverLogin')
+	payload: axios.get('/naverLogin')
 });
 
-export const clickNaverLogin = url => ({
-	type: CLICK_NAVER_LOGIN,
-	payload: axios.post(url)
-});
+// export const clickNaverLogin = url => ({
+// 	type: CLICK_NAVER_LOGIN,
+// 	payload: axios.get('/naverLoginCallBack', url)
+// });
 
 const initialState = {
 	email: 'nohtaesang@naver.com',
