@@ -1,7 +1,7 @@
 module.exports = app => {
 	app.get('/naverLogin', (req, res, next) => {
 		const client_id = 'WyI9Zt0DgUshOZRrcaaL';
-		const redirectURI = encodeURI('http://54.81.41.223:3000/');
+		const redirectURI = encodeURI('http://54.81.41.223:3001/naverLoginCallBack');
 		var state = 'RAMDOM_STATE';
 		const naverLoginUrl =
 			'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' +
