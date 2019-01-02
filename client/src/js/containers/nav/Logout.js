@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { Route, Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as userAction from '../../modules/user';
@@ -7,28 +7,24 @@ import * as userAction from '../../modules/user';
 class Logout extends Component {
 	constructor() {
 		super();
-		window.naverSignInCallback = this.naverSignInCallback.bind(this);
+		this.state = {
+			redirect: false
+		};
 	}
 
 	componentDidMount() {
+		const { UserAction, token } = this.props;
 		const naver_id_login = new window.naver_id_login('WyI9Zt0DgUshOZRrcaaL', encodeURI('http://54.81.41.223:3000'));
-		// console.log(naver_id_login.oauthParams.access_token);
-		// naver_id_login.get_naver_userprofile('naverSignInCallback()');
-
-		console.log(naver_id_login.getProfileData);
-		this.naverSignInCallback(naver_id_login);
+		if (token === null) {
+			UserAction.setToken(naver_id_login.oauthParams.access_token);
+			this.renderRedirect();
+		}
 	}
 
-	naverSignInCallback = naver_id_login => {
-		const { UserAction } = this.props;
-
-		console.log(naver_id_login.getProfileData('email'));
-		console.log(naver_id_login.getProfileData('id'));
-		console.log(naver_id_login.getProfileData('nickname'));
-		console.log(naver_id_login.getProfileData('age'));
-
-		console.log(naver_id_login);
-		// UserAction.setEmail(naver_id_login.getProfileData('email'));
+	renderRedirect = () => {
+		if (this.state.redirect) {
+			return <Redirect to="/" />;
+		}
 	};
 
 	render() {
@@ -43,7 +39,8 @@ class Logout extends Component {
 
 export default connect(
 	state => ({
-		email: state.user.email
+		email: state.user.email,
+		token: state.user.token
 	}),
 	dispatch => ({ UserAction: bindActionCreators(userAction, dispatch) })
 )(Logout);
