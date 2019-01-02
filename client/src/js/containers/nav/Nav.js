@@ -15,10 +15,10 @@ class Nav extends Component {
 	componentDidMount() {
 		const { UserAction, token_type } = this.props;
 		const naver_id_login = new window.naver_id_login('WyI9Zt0DgUshOZRrcaaL', encodeURI('http://54.81.41.223:3000'));
-
+		console.log(naver_id_login.oauthParams.token_type);
 		if (localStorage.token_type) {
 			UserAction.setToken(naver_id_login.oauthParams.token_type, naver_id_login.oauthParams.access_token);
-		} else if (naver_id_login.oauthParams.access_token && token_type === null) {
+		} else if (naver_id_login.oauthParams.token_type && token_type === null) {
 			localStorage.setItem('token_type', naver_id_login.oauthParams.token_type);
 			localStorage.setItem('access_token', naver_id_login.oauthParams.access_token);
 			UserAction.setToken(naver_id_login.oauthParams.token_type, naver_id_login.oauthParams.access_token);
