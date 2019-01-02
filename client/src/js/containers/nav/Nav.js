@@ -12,7 +12,7 @@ class Nav extends Component {
 		super();
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 		const { UserAction, token } = this.props;
 		const naver_id_login = new window.naver_id_login('WyI9Zt0DgUshOZRrcaaL', encodeURI('http://54.81.41.223:3000'));
 
@@ -24,6 +24,8 @@ class Nav extends Component {
 			window.location.href = 'http://54.81.41.223:3000/';
 		}
 	}
+
+	// componentDidMount() {}
 
 	render() {
 		const { token } = this.props;
