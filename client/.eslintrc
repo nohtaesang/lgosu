@@ -4,12 +4,7 @@
   "plugins": ["react", "jsx-a11y", "import"],
   "rules": {
     "react/jsx-filename-extension": 0,
-    "import/no-extraneous-dependencies": [
-      "error",
-      {
-        "devDependencies": true
-      }
-    ],
+    "import/no-extraneous-dependencies": 0,
     "import/prefer-default-export": "off",
     "react/destructuring-assignment": [0, "always"],
     "no-unused-vars": 0,

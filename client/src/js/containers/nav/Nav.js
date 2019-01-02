@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// import { Route, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import './nav.css';
@@ -13,6 +14,7 @@ class Nav extends Component {
 	render() {
 		const { UserAction, naverLoginUrl } = this.props;
 		console.log(naverLoginUrl);
+		console.log(this.props);
 		return (
 			<div id="nav">
 				<button type="button" onClick={() => UserAction.clickNaverLogin(naverLoginUrl)}>
