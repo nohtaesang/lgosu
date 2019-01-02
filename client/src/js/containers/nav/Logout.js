@@ -9,14 +9,14 @@ class Logout extends Component {
 	}
 
 	componentDidMount() {
-		const { UserAction, token } = this.props;
-		UserAction.getUserInfo(token);
+		const { UserAction, type_token, access_token } = this.props;
+		UserAction.getUserInfo(type_token, access_token);
 	}
 
 	clickLogout = () => {
 		const { UserAction } = this.props;
 		localStorage.clear();
-		UserAction.setToken(null);
+		UserAction.setToken(null, null);
 	};
 
 	render() {
@@ -34,7 +34,8 @@ class Logout extends Component {
 export default connect(
 	state => ({
 		email: state.user.email,
-		token: state.user.token
+		type_token: state.user.type_token,
+		access_token: state.user.access_token
 	}),
 	dispatch => ({ UserAction: bindActionCreators(userAction, dispatch) })
 )(Logout);
