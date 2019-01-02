@@ -14,11 +14,11 @@ class Logout extends Component {
 		const naver_id_login = new window.naver_id_login('WyI9Zt0DgUshOZRrcaaL', encodeURI('http://54.81.41.223:3000'));
 		console.log(naver_id_login.oauthParams.access_token);
 		// naver_id_login.get_naver_userprofile('naverSignInCallback()');
+		this.naverSignInCallback(naver_id_login);
 	}
 
-	naverSignInCallback = () => {
+	naverSignInCallback = naver_id_login => {
 		const { UserAction } = this.props;
-		const naver_id_login = new window.naver_id_login('WyI9Zt0DgUshOZRrcaaL', encodeURI('http://54.81.41.223:3000'));
 		UserAction.setEmail(naver_id_login.getProfileData('email'));
 	};
 
