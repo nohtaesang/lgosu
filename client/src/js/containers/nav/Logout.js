@@ -19,6 +19,7 @@ class Logout extends Component {
 	}
 
 	renderRedirect() {
+		console.log('z');
 		return <Redirect to="/" />;
 	}
 
