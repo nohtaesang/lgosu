@@ -46,6 +46,7 @@ module.exports = app => {
 	// });
 	app.get('/getUserInfo', (req, res, next) => {
 		console.log('a');
+		const { token } = req.body;
 		const api_url = 'https://openapi.naver.com/v1/nid/me';
 		const header = 'Bearer ' + token;
 		const request = require('request');
