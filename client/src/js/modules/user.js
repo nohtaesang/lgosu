@@ -6,9 +6,9 @@ const SET_TOKEN = 'SET_TOKEN';
 const SET_EMAIL = 'SET_EMAIL';
 const GET_USER_INFO = 'GET_USER_INFO';
 
-export const setToken = token => ({
+export const setToken = (token_type, access_token) => ({
 	type: SET_TOKEN,
-	payload: token
+	payload: { token_type, access_token }
 });
 
 export const setEmail = email => ({
@@ -27,14 +27,16 @@ const initialState = {
 	email: null,
 	money: null,
 	isLogin: false,
-	token: null
+	token_type: null,
+	access_token: null
 };
 
 export default handleActions(
 	{
 		[SET_TOKEN]: (state, action) => ({
 			...state,
-			token: action.payload
+			token_type: action.payload.token_type,
+			access_token: action.payload.access_token
 		}),
 		[SET_EMAIL]: (state, action) => ({
 			...state,
