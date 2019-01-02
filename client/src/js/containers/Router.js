@@ -7,7 +7,7 @@ const Router = () => (
 	<BrowserRouter>
 		<div>
 			<Route exact path="/" component={App} />
-			<Route path="/naverLoginCallBack" component={App} />
+			<Route path="/callback" component={App} />
 		</div>
 	</BrowserRouter>
 );

@@ -6,21 +6,50 @@ import './nav.css';
 import * as userAction from '../../modules/user';
 
 class Nav extends Component {
-	componentDidMount() {
-		const { UserAction } = this.props;
-		UserAction.getNaverLoginUrl();
+	constructor() {
+		super();
+		window.naverSingInCallBack = this.naverSingInCallBack.bind(this);
+		this.state = {
+			email: ''
+		};
 	}
+
+	componentDidMount() {
+		const naver_id_login = new window.naver_id_login(
+			'WyI9Zt0DgUshOZRrcaaL',
+			encodeURI('http://54.81.41.223:3000/callback')
+		);
+		const state = naver_id_login.getUniqState();
+		naver_id_login.setButton('white', 2, 40);
+		naver_id_login.setDomain('http://54.81.41.223:3000');
+		naver_id_login.setState(state);
+		naver_id_login.init_naver_id_login();
+		// const { UserAction } = this.props;
+		// UserAction.getNaverLoginUrl();
+	}
+
+	naverSingInCallBack = () => {
+		const naver_id_login = new window.naver_id_login(
+			'WyI9Zt0DgUshOZRrcaaL',
+			encodeURI('http://54.81.41.223:3000/callback')
+		);
+		this.setState({
+			email: naver_id_login.getProfileData('email')
+		});
+	};
 
 	render() {
 		const { UserAction, naverLoginUrl } = this.props;
-		console.log(naverLoginUrl);
-		console.log(this.props);
+		// console.log(naverLoginUrl);
+		// console.log(this.props);
 		return (
 			<div id="nav">
 				<button type="button" onClick={() => UserAction.clickNaverLogin(naverLoginUrl)}>
 					{'login'}
 				</button>
 				<a href={naverLoginUrl}>a tag login</a>
+				<div id="naver_id_login">login</div>
+				<div>{`환영합니다${this.state.email}님`}</div>
 			</div>
 		);
 	}
