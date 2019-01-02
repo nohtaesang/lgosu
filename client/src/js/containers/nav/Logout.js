@@ -11,7 +11,12 @@ class Logout extends Component {
 	componentDidMount() {
 		const { UserAction, token } = this.props;
 		console.log(localStorage.token);
-		UserAction.getUserInfo(localStorage.token);
+		// UserAction.getUserInfo(localStorage.token);
+		const req = new XMLHttpRequest();
+		req.open('GET', 'https://openapi.naver.com/v1/nid/me', true);
+		req.setRequestHeader('Authorization', `Bearer ${localStorage.token}`);
+		req.send(null);
+		console.log(req.getResponseHeader('Content-Type'));
 	}
 
 	clickLogout = () => {
