@@ -47,22 +47,23 @@ module.exports = app => {
 	app.get('/getUserInfo', (req, res, next) => {
 		console.log('a');
 		const api_url = 'https://openapi.naver.com/v1/nid/me';
-		const { token } = req.body;
+		const request = require('request');
 		const header = 'Bearer ' + token;
 		const request = require('request');
-		let options = {
+		const options = {
 			url: api_url,
 			headers: { Authorization: header }
 		};
-		console.log('b');
-		request.get(options, (err, response, body) => {
-			if (!err && response.statusCode === 200) {
+		console.log(token);
+		console.log(header);
+		request.get(options, (error, response, body) => {
+			if (!error && response.statusCode === 200) {
 				console.log('c');
 				console.log(body);
 				return res.json({ body });
 			} else {
 				console.log('d');
-				console.log(err);
+				console.log(error);
 			}
 		});
 		console.log('f');
