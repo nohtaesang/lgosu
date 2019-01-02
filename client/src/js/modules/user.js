@@ -18,7 +18,8 @@ export const setEmail = email => ({
 
 export const getUserInfo = token => ({
 	type: GET_USER_INFO,
-	payload: axios.get('https://openapi.naver.com/v1/nid/me', {
+	payload: axios.get({
+		url: 'https://openapi.naver.com/v1/nid/me',
 		headers: { Authorization: `Bearer ${token}` }
 	})
 });
