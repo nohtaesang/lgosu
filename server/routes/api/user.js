@@ -36,12 +36,11 @@ module.exports = app => {
 			url: naverLoginUrl,
 			headers: { 'X-Naver-Client-Id': client_id, 'X-Naver-Client-Secret': client_secret }
 		};
+
 		request.get(options, (error, response, body) => {
 			if (!error && response.statusCode === 200) {
 				res.writeHead(200, { 'Content-Type': 'text/json;charset=utf-8' });
-				res.setHeader('Location', 'http://54.81.41.223:3000/');
-				res.send(body);
-				res.end();
+				res.end(body);
 			} else {
 				res.statusCode(response.statusCode).end();
 				console.log('error = ' + response.statusCode);
