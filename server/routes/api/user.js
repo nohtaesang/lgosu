@@ -44,7 +44,7 @@ module.exports = app => {
 	// 		}
 	// 	});
 	// });
-	app.get('/getUserInfo', (req, res, next) => {
+	app.post('/getUserInfo', (req, res, next) => {
 		console.log('a');
 		console.log(req.body);
 		const { token } = req.body;
