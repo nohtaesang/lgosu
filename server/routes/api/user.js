@@ -39,24 +39,14 @@ module.exports = app => {
 			url: naverLoginUrl,
 			headers: { 'X-Naver-Client-Id': client_id, 'X-Naver-Client-Secret': client_secret }
 		};
-		request.get(options, (err, res, body) => {
-			if (!err && res.statusCode === 200) {
-				console.log(body);
-				res.writeHead(200, { 'Content-Type': 'text/json; charset=utf-8' });
+		request.get(options, (error, response, body) => {
+			if (!error && response.statusCode === 200) {
+				res.writeHead(200, { 'Content-Type': 'text/json;charset=utf-8' });
 				res.end(body);
 			} else {
-				res.statusCode(res.statusCode).end();
-				console.log('error = ' + res.statusCode);
+				res.statusCode(response.statusCode).end();
+				console.log('error = ' + response.statusCode);
 			}
 		});
-		// request.get(options, function (error, response, body) {
-		//   if (!error && response.statusCode == 200) {
-		//     res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
-		//     res.end(body);
-		//   } else {
-		//     res.status(response.statusCode).end();
-		//     console.log('error = ' + response.statusCode);
-		//   }
-		// }
 	});
 };
