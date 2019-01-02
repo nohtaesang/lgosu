@@ -10,10 +10,10 @@ export const getNaverLoginUrl = () => ({
 	payload: axios.post('/naverLogin')
 });
 
-// export const clickNaverLogin = (url) =>({
-// 	type:CLICK_NAVER_LOGIN,
-// 	payload: axios.post()
-// })
+export const clickNaverLogin = url => ({
+	type: CLICK_NAVER_LOGIN,
+	payload: axios.post(url)
+});
 
 const initialState = {
 	email: 'nohtaesang@naver.com',
@@ -28,6 +28,13 @@ export default handleActions(
 			onSuccess: (state, action) =>
 				// console.log(action.payload.data.naverLoginUrl);
 				({ ...state, naverLoginUrl: action.payload.data.naverLoginUrl })
+		}),
+		...pender({
+			type: CLICK_NAVER_LOGIN,
+			onSuccess: (state, action) => {
+				console.log(action.payload);
+				return { ...state };
+			}
 		})
 	},
 	initialState

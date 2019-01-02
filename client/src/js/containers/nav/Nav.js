@@ -15,7 +15,9 @@ class Nav extends Component {
 		console.log(naverLoginUrl);
 		return (
 			<div id="nav">
-				<button type="button">login</button>
+				<button type="button" onClick={() => UserAction.clickNaverLogin(naverLoginUrl)}>
+					{'login'}
+				</button>
 				<a href={naverLoginUrl}>a tag login</a>
 			</div>
 		);
