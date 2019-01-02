@@ -18,7 +18,7 @@ export const setEmail = email => ({
 
 export const getUserInfo = token => ({
 	type: GET_USER_INFO,
-	payload: axios.post('/getUserInfo', {
+	payload: axios.get('/getUserInfo', {
 		token
 	})
 });
