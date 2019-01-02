@@ -19,7 +19,7 @@ export default handleActions(
 	{
 		[SET_EMAIL]: (state, action) => ({
 			...state,
-			email: action.payload.email
+			email: action.payload
 		})
 	},
 	initialState
