@@ -43,10 +43,6 @@ export default handleActions(
 		}),
 		...pender({
 			type: GET_USER_INFO,
-			onFailure: (state, action) => {
-				console.log(action);
-				return { ...state };
-			},
 			onSuccess: (state, action) => {
 				console.log(action);
 				return { ...state };

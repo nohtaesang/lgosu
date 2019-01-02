@@ -27,6 +27,7 @@ class Nav extends Component {
 
 	render() {
 		const { token } = this.props;
+		console.log(token);
 		return <div id="nav">{token === null ? <Login /> : <Logout />}</div>;
 	}
 }
