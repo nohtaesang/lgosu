@@ -19,9 +19,6 @@ module.exports = app => {
 		const redirectURI = encodeURI('http://54.81.41.223:3001/naverLoginCallBack');
 		const code = req.query.code;
 		const state = req.query.state;
-		// console.log(req);
-		console.log('**************1');
-		console.log(req.query);
 		const naverLoginUrl =
 			'https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=' +
 			client_id +
@@ -41,8 +38,9 @@ module.exports = app => {
 		};
 		request.get(options, (error, response, body) => {
 			if (!error && response.statusCode === 200) {
-				res.writeHead(200, { 'Content-Type': 'text/json;charset=utf-8' });
-				res.end(body);
+				// res.writeHead(200, { 'Content-Type': 'text/json;charset=utf-8' });
+				// res.end(body);
+				return res.json({ body });
 			} else {
 				res.statusCode(response.statusCode).end();
 				console.log('error = ' + response.statusCode);
