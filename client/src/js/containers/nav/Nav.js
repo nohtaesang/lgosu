@@ -15,10 +15,7 @@ class Nav extends Component {
 	}
 
 	componentDidMount() {
-		const naver_id_login = new window.naver_id_login(
-			'WyI9Zt0DgUshOZRrcaaL',
-			encodeURI('http://54.81.41.223:3000/callback')
-		);
+		const naver_id_login = new window.naver_id_login('WyI9Zt0DgUshOZRrcaaL', encodeURI('http://54.81.41.223:3000'));
 		const state = naver_id_login.getUniqState();
 		naver_id_login.setButton('white', 2, 40);
 		naver_id_login.setDomain('http://54.81.41.223:3000');
