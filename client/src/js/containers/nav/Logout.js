@@ -2,31 +2,24 @@ import React, { Component } from 'react';
 // import { Route, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import './nav.css';
-import * as userAction from '../../modules/user';
 
-class Nav extends Component {
+class Logout extends Component {
 	constructor() {
 		super();
 		this.state = {
 			email: ''
 		};
-		window.naverSingInCallBack = this.naverSingInCallBack.bind(this);
+		window.naverSignInCallBack = this.naverSignInCallBack.bind(this);
 	}
 
 	componentDidMount() {
 		const naver_id_login = new window.naver_id_login('WyI9Zt0DgUshOZRrcaaL', encodeURI('http://54.81.41.223:3000'));
-		const state = naver_id_login.getUniqState();
-		naver_id_login.setDomain('http://54.81.41.223:3000');
-		naver_id_login.setState(state);
-		naver_id_login.init_naver_id_login();
-
-		// naver_id_login.get_naver_userprofile('naverSignInCallback()');
+		console.log(naver_id_login.oauthParams.access_token);
+		naver_id_login.get_naver_userprofile('naverSignInCallback()');
 	}
 
-	naverSingInCallBack = () => {
+	naverSignInCallBack = () => {
 		const naver_id_login = new window.naver_id_login('WyI9Zt0DgUshOZRrcaaL', encodeURI('http://54.81.41.223:3000'));
-		console.log(naver_id_login.oauthParams.access_token);
 		console.log(naver_id_login.getProfileData('nickname'));
 		console.log(naver_id_login.getProfileData('email'));
 		console.log(naver_id_login.getProfileData('birth'));
@@ -40,9 +33,9 @@ class Nav extends Component {
 		const { UserAction, naverLoginUrl } = this.props;
 
 		return (
-			<div id="nav">
-				<div id="naver_id_login" />
+			<div id="logout">
 				<p>{this.state.email}</p>
+				<button type="button">logout</button>
 			</div>
 		);
 	}
@@ -53,4 +46,4 @@ export default connect(
 		naverLoginUrl: state.user.naverLoginUrl
 	}),
 	dispatch => ({ UserAction: bindActionCreators(userAction, dispatch) })
-)(Nav);
+)(Logout);
