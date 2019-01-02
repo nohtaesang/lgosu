@@ -5,10 +5,7 @@ import './app.css';
 
 const Router = () => (
 	<BrowserRouter>
-		<div>
-			<Route exact path="/" component={App} />
-			<Route path="/callback" component={App} />
-		</div>
+		<Route exact path="/" component={App} />
 	</BrowserRouter>
 );
 
