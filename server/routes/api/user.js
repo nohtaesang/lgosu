@@ -38,9 +38,10 @@ module.exports = app => {
 		};
 		request.get(options, (error, response, body) => {
 			if (!error && response.statusCode === 200) {
-				// res.writeHead(200, { 'Content-Type': 'text/json;charset=utf-8' });
-				// res.end(body);
-				return res.json({ body });
+				res.writeHead(200, { 'Content-Type': 'text/json;charset=utf-8' });
+				res.setHeader('Location', 'http://54.81.41.223:3000/');
+				res.send(body);
+				res.end();
 			} else {
 				res.statusCode(response.statusCode).end();
 				console.log('error = ' + response.statusCode);
