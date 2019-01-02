@@ -18,11 +18,8 @@ export const setEmail = email => ({
 
 export const getUserInfo = token => ({
 	type: GET_USER_INFO,
-	payload: axios.post('https://openapi.naver.com/v1/nid/me', {
-		headers: {
-			Authorization:
-				'Bearer AAAAOswPgaYZSvl3io2GELi+b7aK6BlQ6VmGMq90QAg0sd5D3IeBVBeedYRk7dCJSDwSBYZeFKnIlh7WKRG0fjS4d4U='
-		}
+	payload: axios.post('/getUserInfo', {
+		token
 	})
 });
 
