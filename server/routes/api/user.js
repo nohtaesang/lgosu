@@ -45,6 +45,7 @@ module.exports = app => {
 	// 	});
 	// });
 	app.get('/getUserInfo', (req, res, next) => {
+		console.log('a');
 		const api_url = 'https://openapi.naver.com/v1/nid/me';
 		const { token } = req.body;
 		const header = 'Bearer ' + token;
@@ -53,13 +54,17 @@ module.exports = app => {
 			url: api_url,
 			headers: { Authorization: header }
 		};
-
+		console.log('b');
 		request.get(options, (err, response, body) => {
 			if (!err && response.statusCode === 200) {
+				console.log('c');
+				console.log(body);
 				return res.json({ body });
 			} else {
+				console.log('d');
 				console.log(err);
 			}
 		});
+		console.log('f');
 	});
 };
