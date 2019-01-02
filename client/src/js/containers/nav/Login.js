@@ -6,9 +6,6 @@ import { connect } from 'react-redux';
 class Login extends Component {
 	constructor() {
 		super();
-		this.state = {
-			email: ''
-		};
 	}
 
 	componentDidMount() {
@@ -20,8 +17,6 @@ class Login extends Component {
 	}
 
 	render() {
-		const { UserAction, naverLoginUrl } = this.props;
-
 		return (
 			<div id="login">
 				<div id="naver_id_login" />
@@ -31,8 +26,6 @@ class Login extends Component {
 }
 
 export default connect(
-	state => ({
-		naverLoginUrl: state.user.naverLoginUrl
-	}),
+	state => ({}),
 	dispatch => ({})
 )(Login);
