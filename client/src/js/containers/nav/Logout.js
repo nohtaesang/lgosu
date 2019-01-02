@@ -13,13 +13,13 @@ class Logout extends Component {
 	componentDidMount() {
 		const naver_id_login = new window.naver_id_login('WyI9Zt0DgUshOZRrcaaL', encodeURI('http://54.81.41.223:3000'));
 		// console.log(naver_id_login.oauthParams.access_token);
+		naver_id_login.get_naver_userprofile('naverSignCallback()');
 		this.naverSignInCallback(naver_id_login);
 	}
 
 	naverSignInCallback = naver_id_login => {
 		const { UserAction } = this.props;
 
-		naver_id_login.get_naver_userprofile('naverSignCallback()');
 		console.log(naver_id_login.getProfileData('email'));
 		// UserAction.setEmail(naver_id_login.getProfileData('email'));
 	};
