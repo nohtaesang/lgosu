@@ -36,7 +36,7 @@ module.exports = app => {
 
 		const request = require('request');
 		const options = {
-			url: api_url,
+			url: naverLoginUrl,
 			headers: { 'X-Naver-Client-Id': client_id, 'X-Naver-Client-Secret': client_secret }
 		};
 		request.get(options, (err, res, body) => {
