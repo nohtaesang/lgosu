@@ -29,10 +29,11 @@ class Nav extends Component {
 	}
 
 	naverSingInCallBack = () => {
-		const naver_id_login = new window.naver_id_login(
-			'WyI9Zt0DgUshOZRrcaaL',
-			encodeURI('http://54.81.41.223:3000/callback')
-		);
+		const naver_id_login = new window.naver_id_login('WyI9Zt0DgUshOZRrcaaL', encodeURI('http://54.81.41.223:3000'));
+		console.log(naver_id_login.getProfileData('nickname'));
+		console.log(naver_id_login.getProfileData('email'));
+		console.log(naver_id_login.getProfileData('birth'));
+
 		this.setState({
 			email: naver_id_login.getProfileData('email')
 		});
