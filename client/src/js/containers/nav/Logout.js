@@ -19,7 +19,9 @@ class Logout extends Component {
 
 	naverSignInCallback = naver_id_login => {
 		const { UserAction } = this.props;
-		UserAction.setEmail(naver_id_login.getProfileData('email'));
+		console.log(naver_id_login);
+		console.log(naver_id_login.getProfileData('email'));
+		// UserAction.setEmail(naver_id_login.getProfileData('email'));
 	};
 
 	render() {
