@@ -20,7 +20,7 @@ export const getUserInfo = token => ({
 	type: GET_USER_INFO,
 	payload: axios.get('https://openapi.naver.com/v1/nid/me', {
 		headers: {
-			'Content-type': 'application/json',
+			'Content-Type': 'application/xml',
 			Authorization: `Bearer ${token}`
 		}
 	})
