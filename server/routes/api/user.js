@@ -40,13 +40,14 @@ module.exports = app => {
 			headers: { 'X-Naver-Client-Id': client_id, 'X-Naver-Client-Secret': client_secret }
 		};
 		request.get(options, (err, res, body) => {
-			console.log('**************2');
-			console.log(res);
-			console.log('**************3');
-			console.log(body);
-			// if (!err && res.statusCode === 200) {
-
-			// }
+			if (!err && res.statusCode === 200) {
+				console.log(body);
+				res.writeHead(200, { 'Content-Type': 'text/json; charset=utf-8' });
+				res.end(body);
+			} else {
+				res.statusCode(res.statusCode).end();
+				console.log('error = ' + res.statusCode);
+			}
 		});
 		// request.get(options, function (error, response, body) {
 		//   if (!error && response.statusCode == 200) {
