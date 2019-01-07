@@ -44,10 +44,17 @@ class ConnectedMatchItem extends Component {
 	componentDidMount() {
 		const { match, userEmail } = this.props;
 		const bettingUserIndex = match.bettingUsers.findIndex(info => info.userEmail === userEmail);
+
 		if (bettingUserIndex === -1) {
-			this.setState({ isBet: false, betMoney: 0 });
+			this.setState({
+				isBet: false,
+				betMoney: 0
+			});
 		} else {
-			this.setState({ isBet: true, betMoney: match.bettingUsers[bettingUserIndex].betMoney });
+			this.setState({
+				isBet: true,
+				betMoney: match.bettingUsers[bettingUserIndex].betMoney
+			});
 		}
 	}
 
@@ -121,12 +128,17 @@ class ConnectedMatchItem extends Component {
 
 	render() {
 		const { option, betMoney, isBet } = this.state;
-		const { match, userEmail } = this.props;
-		const { home, away, bettingOptions, bettingState, category, date, bettingUsers } = match;
+		const { match, home, away } = this.props;
+		const { bettingOptions, bettingState, category, date, bettingUsers } = match;
+		console.log(home);
 		return (
 			<div className="matchItem">
-				<div>{date}</div>
-				<div>{`${home} ${away}`}</div>
+				<div className="date">{date}</div>
+				<div className="">
+					{home ? <img alt="" src={home.logo} /> : null}
+
+					{away ? <img alt="" src={away.logo} /> : null}
+				</div>
 				{!isBet ? (
 					<div id="beforeBet">
 						<div>
