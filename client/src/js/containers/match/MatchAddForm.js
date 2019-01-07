@@ -27,22 +27,22 @@ class ConnectedMatchAddForm extends Component {
 
 		if (category === 'lck') {
 			bettingOptions = bettingOptions.concat([
-				{ winner: home, looser: away, winnerScore: 2, looserScore: 0, money: 0 },
-				{ winner: home, looser: away, winnerScore: 2, looserScore: 1, money: 0 },
-				{ winner: away, looser: home, winnerScore: 2, looserScore: 0, money: 0 },
-				{ winner: away, looser: home, winnerScore: 2, looserScore: 1, money: 0 }
+				{ winner: home, looser: away, homeScore: 2, awayScore: 0, money: 0 },
+				{ winner: home, looser: away, homeScore: 2, awayScore: 1, money: 0 },
+				{ winner: away, looser: home, homeScore: 0, awayScore: 2, money: 0 },
+				{ winner: away, looser: home, homeScore: 1, awayScore: 2, money: 0 }
 			]);
 		}
 
 		try {
 			await MatchAction.addMatch(category, newDate, home, away, bettingOptions);
 			await MatchAction.getMatchList(numberOfMatches, matchOption);
-			await this.setState({
-				category: '',
-				time: '',
-				home: '',
-				away: ''
-			});
+			// await this.setState({
+			// 	category: '',
+			// 	time: '',
+			// 	home: '',
+			// 	away: ''
+			// });
 		} catch (e) {
 			console.log('err');
 		}

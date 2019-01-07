@@ -150,7 +150,7 @@ class ConnectedMatchItem extends Component {
 									className={i === option ? 'bettingOption pick' : 'bettingOption'}
 									onClick={this.clickBettingOption}
 								>
-									{`${o.winner} ${o.winnerScore} vs ${o.looserScore} ${o.looser}`}
+									{`${o.homeScore} vs ${o.awayScore}`}
 								</button>
 							))}
 						</div>
