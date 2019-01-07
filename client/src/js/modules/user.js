@@ -2,50 +2,69 @@ import { createAction, handleActions } from 'redux-actions';
 import { pender } from 'redux-pender';
 import axios from 'axios';
 
-const SET_TOKEN = 'SET_TOKEN';
-const SET_EMAIL = 'SET_EMAIL';
-const GET_USER_INFO = 'GET_USER_INFO';
+const GET_NAVER_LOGIN_URL = 'GET_NAVER_LOGIN_URL';
+const GET_USER_INFO_FROM_NAVER = 'GET_USER_INFO_FROM_NAVER';
+const GET_USER_INFO_FROM_DB = 'GET_USER_INFO_FROM_DB';
+const CLICK_LOGOUT = 'CLICK_LOGOUT';
+const CHANGE_USER_MONEY = 'CHANGE_USER_MONEY';
 
-export const setToken = token => ({
-	type: SET_TOKEN,
-	payload: token
+export const getNaverLoginUrl = () => ({
+	type: GET_NAVER_LOGIN_URL,
+	payload: axios.get('/user/naverLogin')
 });
 
-export const setEmail = email => ({
-	type: SET_EMAIL,
-	payload: email
-});
-
-export const getUserInfo = token => ({
-	type: GET_USER_INFO,
-	payload: axios.post('/getUserInfo', {
+export const getUserInfoFromNaver = token => ({
+	type: GET_USER_INFO_FROM_NAVER,
+	payload: axios.post('/getUserInfoFromNaver', {
 		token
+	})
+});
+export const getUserInfoFromDB = userEmail => ({
+	type: GET_USER_INFO_FROM_DB,
+	payload: axios.post('/getUserInfoFromDB', {
+		userEmail
+	})
+});
+export const clickLogout = () => ({
+	type: CLICK_LOGOUT
+});
+
+export const changeUserMoney = (userEmail, money) => ({
+	type: CHANGE_USER_MONEY,
+	payload: axios.post('/changeUserMoney', {
+		userEmail,
+		money
 	})
 });
 
 const initialState = {
-	email: null,
-	money: null,
-	isLogin: false,
-	token: null
+	naverLoginUrl: null,
+	userEmail: null,
+	userMoney: null
 };
 
 export default handleActions(
 	{
-		[SET_TOKEN]: (state, action) => ({
+		[CLICK_LOGOUT]: (state, action) => ({
 			...state,
-			token: action.payload
-		}),
-		[SET_EMAIL]: (state, action) => ({
-			...state,
-			email: action.payload
+			userEmail: null,
+			money: null
 		}),
 		...pender({
-			type: GET_USER_INFO,
-			onSuccess: (state, action) => {
-				console.log(action);
-				return { ...state };
-			}
+			type: GET_NAVER_LOGIN_URL,
+			onSuccess: (state, action) => ({ ...state, naverLoginUrl: action.payload.data.naverLoginUrl })
+		}),
+		...pender({
+			type: GET_USER_INFO_FROM_NAVER,
+			onSuccess: (state, action) => ({ ...state, userEmail: action.payload.data.response.email })
+		}),
+		...pender({
+			type: GET_USER_INFO_FROM_DB,
+			onSuccess: (state, action) => ({ ...state, userMoney: action.payload.data.money })
+		}),
+		...pender({
+			type: CHANGE_USER_MONEY,
+			onSuccess: (state, action) => ({ ...state, userMoney: action.payload.data.money })
 		})
 	},
 	initialState

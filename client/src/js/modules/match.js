@@ -59,13 +59,13 @@ export const updateMatch = (id, update) => ({
 	})
 });
 
-export const bet = (id, userEmail, option, money) => ({
+export const bet = (id, userEmail, option, betMoney) => ({
 	type: BET,
 	payload: axios.post('/bet', {
 		id,
 		userEmail,
 		option,
-		money
+		betMoney
 	})
 });
 

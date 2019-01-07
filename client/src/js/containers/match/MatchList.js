@@ -36,7 +36,6 @@ class ConnectedMatchList extends Component {
 
 	render() {
 		const { matchList, numberOfMatches, loading } = this.props;
-		// console.log(matchList[matchList.length - 1].date.getHour());
 		return (
 			<div id="matchList">
 				{this.props.matchList

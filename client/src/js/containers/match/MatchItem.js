@@ -2,23 +2,18 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as matchAction from '../../modules/match';
+import * as userAction from '../../modules/user';
 
 class ConnectedMatchItem extends Component {
 	constructor() {
 		super();
 		this.state = {
+			isLoading: false,
 			_id: null,
 			option: null,
-			money: 1000,
+			betMoney: 0,
 			isBet: false
 		};
-	}
-
-	componentWillMount() {
-		const { _id } = this.props.match;
-		this.setState({
-			_id
-		});
 	}
 
 	// deleteMatch = async id => {
@@ -39,6 +34,22 @@ class ConnectedMatchItem extends Component {
 	// 		console.log('err');
 	// 	}
 	// };
+	componentWillMount() {
+		const { _id } = this.props.match;
+		this.setState({
+			_id
+		});
+	}
+
+	componentDidMount() {
+		const { match, userEmail } = this.props;
+		const bettingUserIndex = match.bettingUsers.findIndex(info => info.userEmail === userEmail);
+		if (bettingUserIndex === -1) {
+			this.setState({ isBet: false, betMoney: 0 });
+		} else {
+			this.setState({ isBet: true, betMoney: match.bettingUsers[bettingUserIndex].betMoney });
+		}
+	}
 
 	clickBettingOption = async e => {
 		const { option } = this.state;
@@ -51,40 +62,51 @@ class ConnectedMatchItem extends Component {
 		});
 	};
 
-	changeMoney = async e => {
-		let money = Math.floor(e.target.value);
-		if (money < 0) {
-			money = 0;
+	changeBetMoney = async e => {
+		const { userMoney } = this.props;
+		let betMoney = Math.floor(e.target.value);
+		if (betMoney < 0) {
+			betMoney = 0;
+		} else if (betMoney > Math.floor(userMoney)) {
+			betMoney = Math.floor(userMoney);
 		}
 
 		this.setState({
-			money
+			betMoney
 		});
 	};
 
 	clickBet = async e => {
-		const { MatchAction, userEmail, userMoney } = this.props;
-		const { _id, option, money } = this.state;
+		const { MatchAction, UserAction, userEmail, userMoney } = this.props;
+		const { isLoading, _id, option, betMoney } = this.state;
 
-		MatchAction.bet(_id, userEmail, option, money)
-			.then(() => {
-				// 유저 머니 차감
-			})
-			.catch(() => {
-				// 배팅 실패 알림
+		if (isLoading || option === null || betMoney <= 0) return;
+		try {
+			this.setState({ isLoading: true });
+			await MatchAction.bet(_id, userEmail, option, betMoney);
+			await UserAction.changeUserMoney(userEmail, userMoney - betMoney);
+			this.setState({
+				isLoading: false,
+				isBet: true
 			});
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	clickCancelBet = async e => {
-		const { MatchAction, userEmail, userMoney } = this.props;
-		const { _id } = this.state;
-		MatchAction.cancelBet(_id, userEmail)
-			.then(() => {
-				// 유저 머니 회복
-			})
-			.catch(() => {
-				// 배팅 캔슬 실패 알림
-			});
+		const { MatchAction, UserAction, userEmail, userMoney, match } = this.props;
+		const { isLoading, _id, betMoney } = this.state;
+
+		if (isLoading) return;
+		try {
+			this.setState({ isLoading: true });
+			await MatchAction.cancelBet(_id, userEmail);
+			await UserAction.changeUserMoney(userEmail, userMoney + betMoney);
+			this.setState({ isLoading: false, isBet: false });
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	updateMatch = async (id, update, index) => {
@@ -92,14 +114,14 @@ class ConnectedMatchItem extends Component {
 		try {
 			await MatchAction.updateMatch(id, update);
 			await this.getMatchList(this.props.numberOfMatches, this.props.matchOption);
-		} catch (e) {
-			console.log('err!');
+		} catch (err) {
+			console.log(err);
 		}
 	};
 
 	render() {
-		const { option, money, isBet } = this.state;
-		const { match } = this.props;
+		const { option, betMoney, isBet } = this.state;
+		const { match, userEmail } = this.props;
 		const { home, away, bettingOptions, bettingState, category, date, bettingUsers } = match;
 		return (
 			<div className="matchItem">
@@ -120,12 +142,14 @@ class ConnectedMatchItem extends Component {
 								</button>
 							))}
 						</div>
-						<input type="number" value={money} onChange={this.changeMoney} />
-						<button type="button" onClick={this.clickBet}>{`${money}원 배팅하기`}</button>
+						<input type="number" value={betMoney} onChange={this.changeBetMoney} />
+						<button type="button" onClick={this.clickBet}>{`${betMoney}원 배팅하기`}</button>
 					</div>
 				) : (
 					<div id="afterBet">
-						<button type="button">취소하기</button>
+						<button type="button" onClick={this.clickCancelBet}>
+							{'취소하기'}
+						</button>
 					</div>
 				)}
 			</div>
@@ -138,10 +162,11 @@ export default connect(
 		matchList: state.match.matchList,
 		numberOfMatches: state.match.numberOfMatches,
 		matchOption: state.match.matchOption,
-		userEmail: state.user.email,
-		userMoney: state.user.money
+		userEmail: state.user.userEmail,
+		userMoney: state.user.userMoney
 	}),
 	dispatch => ({
-		MatchAction: bindActionCreators(matchAction, dispatch)
+		MatchAction: bindActionCreators(matchAction, dispatch),
+		UserAction: bindActionCreators(userAction, dispatch)
 	})
 )(ConnectedMatchItem);

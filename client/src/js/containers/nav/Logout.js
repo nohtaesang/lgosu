@@ -9,20 +9,23 @@ class Logout extends Component {
 	}
 
 	componentDidMount() {
-		const { UserAction, token } = this.props;
-		UserAction.getUserInfo(localStorage.token);
+		const { UserAction } = this.props;
+		UserAction.getUserInfoFromNaver(localStorage.token).then(() => {
+			UserAction.getUserInfoFromDB(this.props.userEmail);
+		});
 	}
 
 	clickLogout = () => {
 		const { UserAction } = this.props;
 		localStorage.clear();
-		UserAction.setToken(null);
+		UserAction.clickLogout();
+		window.location.href = 'http://14.39.199.54:3000/';
 	};
 
 	render() {
 		return (
 			<div id="logout">
-				<p>{this.props.email}</p>
+				<p>{this.props.userEmail}</p>
 				<button type="button" onClick={this.clickLogout}>
 					{'logout'}
 				</button>
@@ -33,7 +36,7 @@ class Logout extends Component {
 
 export default connect(
 	state => ({
-		email: state.user.email,
+		userEmail: state.user.userEmail,
 		token: state.user.token
 	}),
 	dispatch => ({ UserAction: bindActionCreators(userAction, dispatch) })

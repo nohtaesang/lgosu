@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-// import { Route, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import * as userAction from '../../modules/user';
 
 class Login extends Component {
 	constructor() {
@@ -9,23 +9,25 @@ class Login extends Component {
 	}
 
 	componentDidMount() {
-		const naver_id_login = new window.naver_id_login('WyI9Zt0DgUshOZRrcaaL', encodeURI('http://54.81.41.223:3000'));
-		const state = naver_id_login.getUniqState();
-		naver_id_login.setDomain('http://54.81.41.223:3000');
-		naver_id_login.setState(state);
-		naver_id_login.init_naver_id_login();
+		const { UserAction } = this.props;
+		UserAction.getNaverLoginUrl();
 	}
 
 	render() {
+		const { naverLoginUrl } = this.props;
 		return (
 			<div id="login">
-				<div id="naver_id_login" />
+				<a href={naverLoginUrl}>
+					<button type="button">login</button>
+				</a>
 			</div>
 		);
 	}
 }
 
 export default connect(
-	state => ({}),
-	dispatch => ({})
+	state => ({
+		naverLoginUrl: state.user.naverLoginUrl
+	}),
+	dispatch => ({ UserAction: bindActionCreators(userAction, dispatch) })
 )(Login);

@@ -2,7 +2,6 @@ const Match = require('../../models/Match');
 
 module.exports = app => {
 	app.post('/addMatch', (req, res, next) => {
-		console.log(req.body);
 		Match.create(req.body)
 			.then(match => res.send(match))
 			.catch(err => res.status(500).send(err));
@@ -36,7 +35,7 @@ module.exports = app => {
 	});
 
 	app.post('/bet', (req, res, next) => {
-		const { id, userEmail, option, money } = req.body;
+		const { id, userEmail, option, betMoney } = req.body;
 		Match.findOne(
 			{
 				_id: id
@@ -51,7 +50,7 @@ module.exports = app => {
 				}
 
 				match.updateOne(
-					{ $push: { bettingUsers: { userEmail: userEmail, option: option, money: money } } },
+					{ $push: { bettingUsers: { userEmail: userEmail, option: option, betMoney: betMoney } } },
 					(err, match) => {
 						if (err) {
 							return res.status(500).json({ error: err });
@@ -67,7 +66,7 @@ module.exports = app => {
 	});
 
 	app.post('/cancelBet', (req, res, next) => {
-		const { id, userEmail, option, money } = req.body;
+		const { id, userEmail } = req.body;
 		Match.findOne(
 			{
 				_id: id
@@ -80,19 +79,16 @@ module.exports = app => {
 				if (match.bettingUsers.length === 0) {
 					return res.status(404).json({ error: 'is not exist' });
 				}
-
-				// match.updateOne(
-				// 	{ $push: { bettingUsers: { userEmail: userEmail, option: option, money: money } } },
-				// 	(err, match) => {
-				// 		if (err) {
-				// 			return res.status(500).json({ error: err });
-				// 		}
-				// 		if (!match) {
-				// 			return res.status(404).json({ error: 'match not found' });
-				// 		}
-				// 		return res.json(match);
-				// 	}
-				// );
+				// console.log(match)
+				match.updateOne({ $pull: { bettingUsers: { userEmail: userEmail } } }, (err, match) => {
+					if (err) {
+						return res.status(500).json({ error: err });
+					}
+					if (!match) {
+						return res.status(404).json({ error: 'match not found' });
+					}
+					return res.json(match);
+				});
 			}
 		);
 	});
