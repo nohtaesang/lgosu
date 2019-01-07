@@ -21,10 +21,52 @@
 }
 
 #match .matchItem {
-	/* display: flex; */
-	/* flex-wrap: wrap; */
+	display: flex;
+	flex-direction: column;
 	width: 100%;
 	border: solid 1px black;
+}
+
+#match .matchItem .date {
+	display: flex;
+	justify-content: center;
+}
+
+#match .matchItem .beforeBet {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	/* justify-content: center; */
+}
+
+#match .matchItem .beforeBet .options {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	/* justify-content: center; */
+}
+
+#match .matchItem .beforeBet .options button {
+	height: 30px;
+}
+
+#match .matchItem .beforeBet .betMoney {
+	border: none;
+	margin: 0;
+	padding: 0;
+	width: 50%;
+	height: 30px;
+	text-align: center;
+}
+#match .matchItem .beforeBet .betBtn {
+	width: 50%;
+	height: 30px;
+}
+
+#match .matchItem .teamLogo {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
 }
 
 .info {

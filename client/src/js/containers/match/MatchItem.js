@@ -134,14 +134,13 @@ class ConnectedMatchItem extends Component {
 		return (
 			<div className="matchItem">
 				<div className="date">{date}</div>
-				<div className="">
-					{home ? <img alt="" src={home.logo} /> : null}
-
-					{away ? <img alt="" src={away.logo} /> : null}
+				<div className="teamLogo">
+					{home ? <img className="homeLogo" alt="" src={home.logo} /> : null}
+					{away ? <img className="awayLogo" alt="" src={away.logo} /> : null}
 				</div>
 				{!isBet ? (
-					<div id="beforeBet">
-						<div>
+					<div className="beforeBet">
+						<div className="options">
 							{bettingOptions.map((o, i) => (
 								<button
 									type="button"
@@ -150,15 +149,17 @@ class ConnectedMatchItem extends Component {
 									className={i === option ? 'bettingOption pick' : 'bettingOption'}
 									onClick={this.clickBettingOption}
 								>
-									{`${o.homeScore} vs ${o.awayScore}`}
+									{`${o.homeScore} : ${o.awayScore}`}
 								</button>
 							))}
 						</div>
-						<input type="number" value={betMoney} onChange={this.changeBetMoney} />
-						<button type="button" onClick={this.clickBet}>{`${betMoney}원 배팅하기`}</button>
+						<input type="number" className="betMoney" value={betMoney} onChange={this.changeBetMoney} />
+						<button type="button" className="betBtn" onClick={this.clickBet}>
+							{`${betMoney}원 배팅하기`}
+						</button>
 					</div>
 				) : (
-					<div id="afterBet">
+					<div className="afterBet">
 						<button type="button" onClick={this.clickCancelBet}>
 							{'취소하기'}
 						</button>
