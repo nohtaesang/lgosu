@@ -53,17 +53,20 @@ class ConnectedMatchItem extends Component {
 		} else {
 			this.setState({
 				isBet: true,
-				betMoney: match.bettingUsers[bettingUserIndex].betMoney
+				betMoney: match.bettingUsers[bettingUserIndex].betMoney,
+				option: match.bettingUsers[bettingUserIndex].option
 			});
 		}
 	}
 
 	clickBettingOption = async e => {
 		const { option } = this.state;
-		let newOption = Math.floor(e.target.name);
+		let newOption = parseInt(e.target.name, 10);
+
 		if (option === newOption) {
-			newOption = 'null';
+			newOption = null;
 		}
+
 		this.setState({
 			option: newOption
 		});
@@ -71,11 +74,11 @@ class ConnectedMatchItem extends Component {
 
 	changeBetMoney = async e => {
 		const { userMoney } = this.props;
-		let betMoney = Math.floor(e.target.value);
+		let betMoney = parseInt(e.target.value, 10);
 		if (betMoney < 0) {
 			betMoney = 0;
-		} else if (betMoney > Math.floor(userMoney)) {
-			betMoney = Math.floor(userMoney);
+		} else if (betMoney > parseInt(userMoney, 10)) {
+			betMoney = parseInt(userMoney, 10);
 		}
 
 		this.setState({
@@ -86,8 +89,7 @@ class ConnectedMatchItem extends Component {
 	clickBet = async e => {
 		const { MatchAction, UserAction, userEmail, userMoney } = this.props;
 		const { isLoading, _id, option, betMoney } = this.state;
-
-		if (isLoading || option === null || betMoney <= 0) return;
+		if (isLoading || option === null || betMoney <= 0 || userEmail === null) return;
 		try {
 			this.setState({ isLoading: true });
 			await MatchAction.bet(_id, userEmail, option, betMoney);
@@ -130,40 +132,45 @@ class ConnectedMatchItem extends Component {
 		const { option, betMoney, isBet } = this.state;
 		const { match, home, away } = this.props;
 		const { bettingOptions, bettingState, category, date, bettingUsers } = match;
-		console.log(home);
+		const newDate = new Date(date);
 		return (
-			<div className="matchItem">
-				<div className="date">{date}</div>
-				<div className="teamLogo">
-					{home ? <img className="homeLogo" alt="" src={home.logo} /> : null}
-					{away ? <img className="awayLogo" alt="" src={away.logo} /> : null}
+			<div className={!isBet ? 'matchItem' : 'matchItem bet'}>
+				{/* <div className="date">{`${newDate.getFullYear()}/${newDate.getMonth() + 1}/${newDate.getDate()}`}</div> */}
+				<div className="info">
+					<div className="date">
+						{`${newDate.getFullYear()}/${newDate.getMonth()
+							+ 1}/${newDate.getDate()} ${newDate.getHours()}:00시 마감`}
+					</div>
+					<div className="team">
+						{home ? <img className="homeLogo" alt="" src={home.logo} /> : null}
+						{':'}
+						{away ? <img className="awayLogo" alt="" src={away.logo} /> : null}
+					</div>
+				</div>
+				<div className="options">
+					{bettingOptions.map((o, i) => (
+						<button
+							type="button"
+							key={i}
+							name={i}
+							className={i === option ? 'pick' : null}
+							onClick={this.clickBettingOption}
+						>
+							{`${o.homeScore} : ${o.awayScore}`}
+						</button>
+					))}
 				</div>
 				{!isBet ? (
 					<div className="beforeBet">
-						<div className="options">
-							{bettingOptions.map((o, i) => (
-								<button
-									type="button"
-									key={i}
-									name={i}
-									className={i === option ? 'bettingOption pick' : 'bettingOption'}
-									onClick={this.clickBettingOption}
-								>
-									{`${o.homeScore} : ${o.awayScore}`}
-								</button>
-							))}
-						</div>
 						<input type="number" className="betMoney" value={betMoney} onChange={this.changeBetMoney} />
 						<button type="button" className="betBtn" onClick={this.clickBet}>
 							{`${betMoney}원 배팅하기`}
 						</button>
 					</div>
 				) : (
-					<div className="afterBet">
-						<button type="button" onClick={this.clickCancelBet}>
-							{'취소하기'}
-						</button>
-					</div>
+					<button type="button" className="betCancelBtn" onClick={this.clickCancelBet}>
+						{'취소하기'}
+					</button>
 				)}
 			</div>
 		);

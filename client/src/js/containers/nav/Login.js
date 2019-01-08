@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as userAction from '../../modules/user';
+import naverLoginIcon from './icon/naver_login_icon.PNG';
 
 class Login extends Component {
 	constructor() {
@@ -18,7 +19,9 @@ class Login extends Component {
 		return (
 			<div id="login">
 				<a href={naverLoginUrl}>
-					<button type="button">login</button>
+					<div className="loginBtn" type="button">
+						<img alt="" src={naverLoginIcon} />
+					</div>
 				</a>
 			</div>
 		);

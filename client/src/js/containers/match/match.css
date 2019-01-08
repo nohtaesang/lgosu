@@ -1,21 +1,39 @@
 #match {
-	width: 500px;
+	width: 420px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
+	margin: 5px;
 }
 
+/* tab */
 #match #tab {
 	display: flex;
+	/* justify-content: baseline; */
 	width: 100%;
 	height: 40px;
+	margin-bottom: 10px;
+	/* border-bottom: solid 1px #6c757d; */
 }
 
 #match #tab button {
-	width: 25%;
+	border: none;
+	background: white;
+	cursor: pointer;
+	color: #999;
 }
 
+#match #tab button:hover {
+	color: black;
+}
+
+#match #tab button.pick {
+	color: black;
+	text-decoration: underline;
+}
+
+/* matchList */
 #match #matchList {
 	width: 100%;
 }
@@ -24,78 +42,121 @@
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	border: solid 1px black;
+	/* border: solid 1px #eee; */
+	align-items: center;
+	margin-bottom: 10px;
+	box-sizing: border-box;
+	background: white;
+
+	/* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+	/* padding: 10px; */
+}
+#match .matchItem.bet {
+	/* box-shadow: 0 4px 8px 0 rgba(255, 0, 0, 0.2), 0 6px 20px 0 rgba(255, 0, 0, 0.19); */
 }
 
-#match .matchItem .date {
+#match .matchItem .info {
+	width: 100%;
 	display: flex;
-	justify-content: center;
+	justify-content: space-around;
+	align-items: center;
+	flex-direction: column;
+
+	/* box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19); */
 }
 
-#match .matchItem .beforeBet {
+#match .matchItem .info .team {
 	display: flex;
-	flex-wrap: wrap;
-	flex-direction: row;
-	/* justify-content: center; */
+	align-items: center;
+	width: 100%;
+	justify-content: space-evenly;
 }
 
-#match .matchItem .beforeBet .options {
+/* #match .matchItem .date {
+	display: flex;
+} */
+
+#match .matchItem .options {
 	display: flex;
 	flex-direction: column;
+	/* align-items: center; */
 	width: 100%;
-	/* justify-content: center; */
+	justify-content: center;
+	box-sizing: border-box;
 }
 
-#match .matchItem .beforeBet .options button {
-	height: 30px;
+#match .matchItem .options button {
+	/* background: white; */
+	/* border: solid 1px #353b48; */
+	padding: 0px 24px 0px 24px;
+	/* width: 100px; */
+	cursor: pointer;
+	height: 40px;
+	/* margin-bottom: 10px; */
+	border: none;
+	border-top: solid 1px #eee;
+	background: none;
+	/* border-radius: 0.25rem;
+	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+		box-shadow 0.15s ease-in-out; */
+	color: #6c757d;
+
+	/* box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19); */
+	/* margin-bottom: 10px; */
+}
+
+#match .matchItem .options button:nth-child(2n-1) {
+	/* background: #eee; */
+}
+
+#match .matchItem .options button:hover {
+	color: black;
+	/* background: #6c757d; */
+}
+
+#match .matchItem .options button.pick {
+	color: black;
+	/* border: none; */
+	/* text-decoration: underline; */
+	background: #636e72;
+	/* border: solid 5px #6c757d; */
+	/* box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19); */
+	z-index: 1;
+}
+#match .matchItem .beforeBet {
+	display: flex;
+	width: 100%;
+	/* border-top: solid 1px #6c757d; */
+	border-top: solid 1px #eee;
 }
 
 #match .matchItem .beforeBet .betMoney {
-	border: none;
+	/* border: none; */
 	margin: 0;
 	padding: 0;
 	width: 50%;
-	height: 30px;
+	height: 40px;
 	text-align: center;
+	border: none;
+	box-sizing: border-box;
+	outline: none;
+	border-right: solid 1px #eee;
 }
+
 #match .matchItem .beforeBet .betBtn {
 	width: 50%;
-	height: 30px;
+	height: 40px;
+	background: #6a89cc;
+	border: none;
+	/* box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19); */
 }
 
-#match .matchItem .teamLogo {
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-}
+#match .matchItem .betCancelBtn {
+	width: 100%;
+	height: 40px;
+	background: none;
+	border: none;
+	border-top: solid 1px #eee;
 
-.info {
-	display: flex;
-	/* justify-content: center; */
-	align-items: center;
-	margin-bottom: 50px;
-}
-
-.winner-prediction {
-	display: flex;
-	justify-content: space-around;
-	flex-wrap: wrap;
-	margin-bottom: 50px;
-}
-
-.score-prediction {
-	display: flex;
-	justify-content: space-around;
-	flex-wrap: wrap;
-	margin-bottom: 50px;
-}
-
-.admin {
-	display: flex;
-}
-
-.bettingOption {
-}
-.bettingOption.pick {
-	color: red;
+	/* box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19); */
 }

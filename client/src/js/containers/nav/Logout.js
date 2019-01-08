@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as userAction from '../../modules/user';
+import naverLoginIcon from './icon/naver_logout_icon.PNG';
 
 class Logout extends Component {
 	constructor() {
@@ -25,10 +26,9 @@ class Logout extends Component {
 	render() {
 		return (
 			<div id="logout">
-				<p>{this.props.userEmail}</p>
-				<button type="button" onClick={this.clickLogout}>
-					{'logout'}
-				</button>
+				<div className="logoutBtn" onClick={this.clickLogout}>
+					<img alt="" src={naverLoginIcon} />
+				</div>
 			</div>
 		);
 	}

@@ -15,18 +15,35 @@ class ConnectedTab extends Component {
 	};
 
 	render() {
+		const matchOption = parseInt(this.props.matchOption, 10);
 		return (
 			<div id="tab">
-				<button type="button" onClick={() => this.setMatchOption(0)}>
+				<button
+					type="button"
+					className={matchOption === 0 ? 'pick' : null}
+					onClick={() => this.setMatchOption(0)}
+				>
 					{'진행중'}
 				</button>
-				<button type="button" onClick={() => this.setMatchOption(1)}>
+				<button
+					type="button"
+					className={matchOption === 1 ? 'pick' : null}
+					onClick={() => this.setMatchOption(1)}
+				>
 					{'경기중'}
 				</button>
-				<button type="button" onClick={() => this.setMatchOption(2)}>
+				<button
+					type="button"
+					className={matchOption === 2 ? 'pick' : null}
+					onClick={() => this.setMatchOption(2)}
+				>
 					{'경기 종료'}
 				</button>
-				<button type="button" onClick={() => this.setMatchOption(3)}>
+				<button
+					type="button"
+					className={matchOption === 3 ? 'pick' : null}
+					onClick={() => this.setMatchOption(3)}
+				>
 					{'전체 경기'}
 				</button>
 			</div>

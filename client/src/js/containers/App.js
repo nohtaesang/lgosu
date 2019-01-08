@@ -12,15 +12,13 @@ const App = () => (
 		<Nav />
 		<div id="left">
 			<Profile />
-			<Ranking />
+			{/* <Ranking /> */}
 		</div>
 		<div id="center">
 			<Match />
 		</div>
-		<div id="right">
-			<Chatting />
-		</div>
-		<DevTools />
+		<div id="right">{/* <Chatting /> */}</div>
+		{/* <DevTools /> */}
 	</div>
 );
 

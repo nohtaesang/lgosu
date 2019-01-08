@@ -25,7 +25,6 @@ class Nav extends Component {
 	render() {
 		const { userEmail, userMoney } = this.props;
 		const token = localStorage.getItem('token');
-		console.log(userEmail, userMoney);
 
 		return <div id="nav">{token === null ? <Login /> : <Logout />}</div>;
 	}

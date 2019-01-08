@@ -12,7 +12,7 @@ class ConnectedMatch extends Component {
 		const { isAdmin } = this.props;
 		return (
 			<div id="match" className="container">
-				<MatchAddForm />
+				{/* <MatchAddForm /> */}
 				<Tab />
 				<MatchList />
 			</div>
