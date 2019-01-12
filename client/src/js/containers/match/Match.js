@@ -1,28 +1,48 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import MatchAddForm from './MatchAddForm';
-import Tab from './Tab';
 import MatchList from './MatchList';
-// import * as commonAction from '../../modules/common';
+import Admin from './Admin';
 import './match.css';
+import * as matchAction from '../../modules/match';
 
 class ConnectedMatch extends Component {
+	constructor() {
+		super();
+		this.state = {
+			isLoading: false,
+			isAdmin: false
+		};
+	}
+
+	componentDidMount() {
+		const { MatchAction, matchOption, numberOfMatches } = this.props;
+		try {
+			MatchAction.getMatchList(numberOfMatches, matchOption);
+		} catch (err) {
+			console.log(err);
+		}
+	}
+
 	render() {
-		const { isAdmin } = this.props;
-		return (
+		const { userInfoFromNaver } = this.props;
+		return userInfoFromNaver ? (
 			<div id="match" className="container">
-				{/* <MatchAddForm /> */}
-				<Tab />
 				<MatchList />
+
+				{userInfoFromNaver.email === 'nohtaesang@naver.com' ? <Admin /> : null}
 			</div>
-		);
+		) : null;
 	}
 }
 
 export default connect(
 	state => ({
-		isAdmin: state.common.isAdmin
+		matchOption: state.match.matchOption,
+		numberOfMatches: state.match.numberOfMatches,
+		userInfoFromNaver: state.user.userInfoFromNaver
 	}),
-	dispatch => ({})
+	dispatch => ({
+		MatchAction: bindActionCreators(matchAction, dispatch)
+	})
 )(ConnectedMatch);

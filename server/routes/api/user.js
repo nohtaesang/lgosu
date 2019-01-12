@@ -1,7 +1,8 @@
 const User = require('../../models/User');
 
 module.exports = app => {
-	app.get('/user/naverLogin', (req, res, next) => {
+	// 네이버 로그인 url을 리턴한다.
+	app.get('/user/getNaverLoginUrl', (req, res, next) => {
 		const client_id = 'WyI9Zt0DgUshOZRrcaaL';
 		const redirectURI = encodeURI('http://14.39.199.54:3001/user/callback');
 		var state = 'RAMDOM_STATE';
@@ -52,7 +53,8 @@ module.exports = app => {
 		});
 	});
 
-	app.post('/getUserInfoFromNaver', (req, res, next) => {
+	// 토큰을 이용하여 사용자에 대한 정보를 리턴한다.
+	app.post('/user/getUserInfoFromNaver', (req, res, next) => {
 		const { token } = req.body;
 		const api_url = 'https://openapi.naver.com/v1/nid/me';
 		const header = 'Bearer ' + token;
@@ -66,16 +68,17 @@ module.exports = app => {
 			if (!error && response.statusCode === 200) {
 				return res.json(JSON.parse(body));
 			} else {
-				console.log(error);
+				return res.json({ success: false });
 			}
 		});
 	});
 
-	app.post('/getUserInfoFromDB', (req, res) => {
+	// 유저가 없으면 등록하고 있음면 money를 리턴한다.
+	app.post('/user/getUserInfoFromDB', (req, res) => {
 		const { userEmail } = req.body;
 		User.findOne(
 			{
-				email: userEmail
+				userEmail
 			},
 			(err, user) => {
 				if (err) {
@@ -83,30 +86,93 @@ module.exports = app => {
 				}
 
 				if (user === null) {
-					User.create({ email: userEmail, money: 10000 });
-					return res.json({ money: 10000 });
+					User.create({ userEmail, userMoney: 10000 });
+					return res.json({ userMoney: 10000 });
 				} else {
-					return res.json({ money: user.money });
+					return res.json({ userMoney: user.userMoney });
 				}
 			}
 		);
 	});
 
-	app.post('/changeUserMoney', (req, res) => {
+	// 유저의 정보를 update 시킨다.
+	app.post('/user/updateUser', (req, res, next) => {
+		const { userEmail, update } = req.body;
+		User.updateOne({ userEmail }, update, err => {
+			if (err) return res.json({ success: false, error: err });
+			return res.json({ update });
+		});
+	});
+
+	//  유저의 돈을 증감시킨다
+	app.post('/user/changeUserMoney', (req, res) => {
 		const { userEmail, money } = req.body;
 		User.updateOne(
 			{
-				email: userEmail
+				userEmail
 			},
-			{ $set: { money: money } },
+			{ $inc: { userMoney: money } },
 			err => {
-				if (err) return res.json({ sucess: false, error: err });
+				if (err) return res.json({ success: false, error: err });
 				return res.json({ money });
 			}
 		);
 	});
+
+	// BettingList에 참여한 betting을 추가한다
+	app.post('/user/insertBettingList', (req, res, next) => {
+		const { userEmail, id } = req.body;
+		User.findOne(
+			{
+				userEmail
+			},
+			{ bettingList: { $elemMatch: { id: id } } },
+			(err, user) => {
+				if (err) {
+					return res.status(500).json({ error: err });
+				}
+				if (user.bettingList.length !== 0) {
+					return res.status(404).json({ error: 'is already exist' });
+				}
+
+				user.updateOne({ $push: { bettingList: { id: id } } }, (err, user) => {
+					if (err) {
+						return res.status(500).json({ error: err });
+					}
+					if (!user) {
+						return res.status(404).json({ error: 'user not found' });
+					}
+					return res.json(user);
+				});
+			}
+		);
+	});
+
+	// bettingList에 id와 같은 값을 삭제한다
+	app.post('/user/deleteBettingList', (req, res, next) => {
+		const { userEmail, id } = req.body;
+		User.findOne(
+			{
+				userEmail
+			},
+			{ bettingList: { $elemMatch: { id: id } } },
+			(err, user) => {
+				if (err) {
+					return res.status(500).json({ error: err });
+				}
+				if (user.bettingList.length === 0) {
+					return res.status(404).json({ error: 'is not exist' });
+				}
+				user.updateOne({ $pull: { bettingList: { id: id } } }, (err, user) => {
+					if (err) {
+						return res.status(500).json({ error: err });
+					}
+					if (!user) {
+						return res.status(404).json({ error: 'user not found' });
+					}
+					return res.json(user);
+				});
+			}
+		);
+	});
 };
-// Match.updateOne({ _id: id }, update, err => {
-// 	if (err) return res.json({ sucess: false, error: err });
-// 	return res.json({ sucess: true });
-// });

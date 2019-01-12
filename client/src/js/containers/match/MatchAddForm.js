@@ -24,7 +24,7 @@ class ConnectedMatchAddForm extends Component {
 		const { category, date, hour, home, away } = this.state;
 		const newDate = new Date(date.setHours(hour));
 		let bettingOptions = [];
-
+		let dividendMoney = [];
 		if (category === 'lck') {
 			bettingOptions = bettingOptions.concat([
 				{ winner: home, looser: away, homeScore: 2, awayScore: 0, money: 0 },
@@ -32,10 +32,11 @@ class ConnectedMatchAddForm extends Component {
 				{ winner: away, looser: home, homeScore: 0, awayScore: 2, money: 0 },
 				{ winner: away, looser: home, homeScore: 1, awayScore: 2, money: 0 }
 			]);
+			dividendMoney = dividendMoney.concat([1000], [1000], [1000], [1000]);
 		}
 
 		try {
-			await MatchAction.addMatch(category, newDate, home, away, bettingOptions);
+			await MatchAction.addMatch(category, newDate, home, away, bettingOptions, dividendMoney);
 			await MatchAction.getMatchList(numberOfMatches, matchOption);
 			// await this.setState({
 			// 	category: '',

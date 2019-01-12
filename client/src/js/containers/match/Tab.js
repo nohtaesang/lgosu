@@ -4,13 +4,14 @@ import { connect } from 'react-redux';
 import * as matchAction from '../../modules/match';
 
 class ConnectedTab extends Component {
-	setMatchOption = async option => {
+	clickMatchOption = async e => {
 		const { MatchAction } = this.props;
+		const option = parseInt(e.target.name, 10);
 		try {
+			await MatchAction.getMatchList(10, option);
 			await MatchAction.setMatchOption(option);
-			await MatchAction.getMatchList(this.props.numberOfMatches, this.props.matchOption);
-		} catch (e) {
-			console.log('err');
+		} catch (err) {
+			console.log(err);
 		}
 	};
 
@@ -21,30 +22,26 @@ class ConnectedTab extends Component {
 				<button
 					type="button"
 					className={matchOption === 0 ? 'pick' : null}
-					onClick={() => this.setMatchOption(0)}
+					name="0"
+					onClick={this.clickMatchOption}
 				>
 					{'진행중'}
 				</button>
 				<button
 					type="button"
 					className={matchOption === 1 ? 'pick' : null}
-					onClick={() => this.setMatchOption(1)}
+					name="1"
+					onClick={this.clickMatchOption}
 				>
 					{'경기중'}
 				</button>
 				<button
 					type="button"
 					className={matchOption === 2 ? 'pick' : null}
-					onClick={() => this.setMatchOption(2)}
+					name="2"
+					onClick={this.clickMatchOption}
 				>
 					{'경기 종료'}
-				</button>
-				<button
-					type="button"
-					className={matchOption === 3 ? 'pick' : null}
-					onClick={() => this.setMatchOption(3)}
-				>
-					{'전체 경기'}
 				</button>
 			</div>
 		);
@@ -53,7 +50,6 @@ class ConnectedTab extends Component {
 
 export default connect(
 	state => ({
-		numberOfMatches: state.match.numberOfMatches,
 		matchOption: state.match.matchOption
 	}),
 	dispatch => ({

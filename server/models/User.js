@@ -1,9 +1,9 @@
 var mongoose = require('mongoose');
 
 var UserSchema = new mongoose.Schema({
-	email: { type: String },
-	money: { type: Number },
-	birthday: { type: String }
+	userEmail: { type: String },
+	userMoney: { type: Number },
+	bettingList: { type: Array }
 });
 
 UserSchema.statics.create = function(payload) {

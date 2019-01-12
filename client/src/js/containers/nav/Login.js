@@ -5,10 +5,7 @@ import * as userAction from '../../modules/user';
 import naverLoginIcon from './icon/naver_login_icon.PNG';
 
 class Login extends Component {
-	constructor() {
-		super();
-	}
-
+	// 네이버 로그인 Url을 가져온다.
 	componentDidMount() {
 		const { UserAction } = this.props;
 		UserAction.getNaverLoginUrl();
@@ -19,7 +16,7 @@ class Login extends Component {
 		return (
 			<div id="login">
 				<a href={naverLoginUrl}>
-					<div className="loginBtn" type="button">
+					<div id="loginBtn" type="button">
 						<img alt="" src={naverLoginIcon} />
 					</div>
 				</a>

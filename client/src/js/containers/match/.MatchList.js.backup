@@ -3,8 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as matchAction from '../../modules/match';
 import Tab from './Tab';
-import BeforeMatchItem from './BeforeMatchItem';
-import DuringMatchItem from './DuringMatchItem';
+import MatchItem from './MatchItem';
 
 import ktLogo from './logo/logo_ktrolster.png';
 import griffineLogo from './logo/logo_griffin_new.png';
@@ -16,10 +15,17 @@ import sktLogo from './logo/logo_skt1.png';
 import jinairLogo from './logo/logo_jinair.png';
 import damwonLogo from './logo/logo_damwon.png';
 import battlecomicsLogo from './logo/logo_battlecomics.png';
-import AfterMatchItem from './AfterMatchItem';
 
-class MatchList extends Component {
-	componentDidMount() {}
+class ConnectedMatchList extends Component {
+	componentDidMount() {
+		this.getMatchList();
+	}
+
+	// componentWillReceiveProps(nextProps) {
+	//     if (this.props.numberOfMatches !== nextProps.numberOfMatches) {
+	//         // this.getMatchList(nextProps.numberOfMatches);
+	//     }
+	// }
 
 	initTeamInfo = name => {
 		let logo = '';
@@ -71,50 +77,45 @@ class MatchList extends Component {
 		return { logo, koName };
 	};
 
-	clickGetMoreMatches = async () => {
-		const { MatchAction, numberOfMatches, matchOption } = this.props;
-		await MatchAction.getMoreMatchList();
-		await MatchAction.getMatchList(numberOfMatches + 10, matchOption);
+	getMatchList = async () => {
+		const { MatchAction } = this.props;
+		try {
+			await MatchAction.getMatchList(this.props.numberOfMatches, this.props.matchOption);
+		} catch (e) {
+			console.log('err');
+		}
+	};
+
+	getMoreMatchList = async () => {
+		const { MatchAction } = this.props;
+		try {
+			await MatchAction.getMoreMatchList();
+			await MatchAction.getMatchList(this.props.numberOfMatches, this.props.matchOption);
+		} catch (e) {
+			console.log('err');
+		}
 	};
 
 	render() {
-		const { matchOption, matchList, numberOfMatches, loading } = this.props;
+		const { matchList, numberOfMatches, loading } = this.props;
+		console.log('z');
 		return (
 			<div id="matchList">
 				<Tab />
-				{matchOption === 0
-					? matchList.map((m, i) => (
-						<BeforeMatchItem
-							key={i}
-							match={m}
-							home={this.initTeamInfo(m.home)}
-							away={this.initTeamInfo(m.away)}
+				{this.props.matchList
+					? this.props.matchList.map((match, i) => (
+						<MatchItem
+							key={match._id}
+							match={match}
+							home={this.initTeamInfo(match.home)}
+							away={this.initTeamInfo(match.away)}
 						/>
 					  ))
 					: null}
-				{matchOption === 1
-					? matchList.map((m, i) => (
-						<DuringMatchItem
-							key={i}
-							match={m}
-							home={this.initTeamInfo(m.home)}
-							away={this.initTeamInfo(m.away)}
-						/>
-					  ))
-					: null}
-				{matchOption === 2
-					? matchList.map((m, i) => (
-						<AfterMatchItem
-							key={i}
-							match={m}
-							home={this.initTeamInfo(m.home)}
-							away={this.initTeamInfo(m.away)}
-						/>
-					  ))
-					: null}
-				{matchList.length === numberOfMatches ? (
-					<button type="button" id="getMoreMatches" onClick={this.clickGetMoreMatches}>
-						{'경기 더 불러오기'}
+				{loading ? <p>loading...</p> : null}
+				{!loading && matchList.length === numberOfMatches ? (
+					<button type="button" name="loadMore" onClick={this.getMoreMatchList}>
+						{'loadMore'}
 					</button>
 				) : null}
 			</div>
@@ -124,12 +125,12 @@ class MatchList extends Component {
 
 export default connect(
 	state => ({
-		matchOption: state.match.matchOption,
 		matchList: state.match.matchList,
+		matchOption: state.match.matchOption,
 		numberOfMatches: state.match.numberOfMatches,
 		loading: state.pender.pending.GET_MATCH_LIST
 	}),
 	dispatch => ({
 		MatchAction: bindActionCreators(matchAction, dispatch)
 	})
-)(MatchList);
+)(ConnectedMatchList);

@@ -1,32 +1,47 @@
+/* nav */
 #nav {
 	display: flex;
 	width: 100%;
 	height: 50px;
 	align-items: center;
-	background: #353b48;
-	color: #f5f6fa;
+	justify-content: flex-end;
+	background: #eee;
+	/* color: #f5f6fa; */
 	margin-bottom: 5px;
 }
 
-#nav #logout {
+/* login */
+#nav #login {
 	display: flex;
-	flex-direction: row-reverse;
+	margin-right: 10px;
 }
 
-.loginBtn {
+#nav #login #loginBtn {
 	height: 38px;
 }
 
-.loginBtn img {
+#nav #login #loginBtn img {
 	height: 38px;
 	cursor: pointer;
 }
 
-.logoutBtn {
+/* logout */
+#nav #logout {
+	display: flex;
+	align-items: center;
+	margin-right: 10px;
+}
+
+#nav #logout p {
+	margin: 0;
+	margin-right: 10px;
+}
+
+#nav #logout #logoutBtn {
 	height: 38px;
 }
 
-.logoutBtn img {
+#nav #logout #logoutBtn img {
 	height: 38px;
 	cursor: pointer;
 }

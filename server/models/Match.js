@@ -7,7 +7,9 @@ var MatchSchema = new mongoose.Schema({
 	away: { type: String },
 	bettingState: { type: Number, default: 0 },
 	bettingOptions: { type: Array },
-	bettingUsers: { type: Array }
+	bettingUsers: { type: Array },
+	dividendMoney: { type: Array },
+	result: { type: Number, default: null }
 });
 
 MatchSchema.statics.create = function(payload) {

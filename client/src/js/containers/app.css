@@ -3,7 +3,7 @@
 	flex-wrap: wrap;
 	justify-content: center;
 	width: 100%;
-	background: #2d3436;
+	/* background: #2d3436; */
 }
 
 input[type='number']::-webkit-inner-spin-button {
