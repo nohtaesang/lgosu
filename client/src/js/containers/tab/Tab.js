@@ -3,16 +3,23 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as matchAction from '../../modules/match';
 
-class ConnectedTab extends Component {
+import './tab.css';
+
+class Tab extends Component {
 	clickMatchOption = async e => {
 		const { MatchAction } = this.props;
 		const option = parseInt(e.target.name, 10);
-		try {
-			await MatchAction.getMatchList(10, option);
-			await MatchAction.setMatchOption(option);
-		} catch (err) {
-			console.log(err);
+
+		if (option <= 2) {
+			try {
+				await MatchAction.getMatchList(10, option);
+			} catch (err) {
+				console.log(err);
+			}
+		} else {
+			await MatchAction.resetMatchList();
 		}
+		await MatchAction.setMatchOption(option);
 	};
 
 	render() {
@@ -43,6 +50,30 @@ class ConnectedTab extends Component {
 				>
 					{'경기 종료'}
 				</button>
+				<button
+					type="button"
+					className={matchOption === 3 ? 'pick' : null}
+					name="3"
+					onClick={this.clickMatchOption}
+				>
+					{'나의 기록'}
+				</button>
+				<button
+					type="button"
+					className={matchOption === 4 ? 'pick' : null}
+					name="4"
+					onClick={this.clickMatchOption}
+				>
+					{'랭킹'}
+				</button>
+				<button
+					type="button"
+					className={matchOption === 5 ? 'pick' : null}
+					name="5"
+					onClick={this.clickMatchOption}
+				>
+					{'채팅하기'}
+				</button>
 			</div>
 		);
 	}
@@ -55,4 +86,4 @@ export default connect(
 	dispatch => ({
 		MatchAction: bindActionCreators(matchAction, dispatch)
 	})
-)(ConnectedTab);
+)(Tab);

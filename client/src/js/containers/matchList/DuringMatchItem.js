@@ -60,25 +60,35 @@ class DuringMatchItem extends Component {
 		return dividendRate;
 	};
 
+	getTeamInfo = enName => {
+		const { teamInfo } = this.props;
+		for (const a of teamInfo) {
+			if (a.enName === enName) return a;
+		}
+		return false;
+	};
+
 	render() {
 		const { isBet, betMoney, option, dividendMoney, dividendRate } = this.state;
-		const { match, home, away } = this.props;
-		const { date, bettingOptions, result } = match;
+		const { match } = this.props;
+		const { date, bettingOptions, home, away } = match;
+		const homeInfo = this.getTeamInfo(home);
+		const awayInfo = this.getTeamInfo(away);
 		const newDate = new Date(date);
 
 		return (
 			<div className="matchItem during">
-				<div className="info">
+				<div className="matchInfo">
 					<div className="date">
 						{`${newDate.getFullYear()}/${newDate.getMonth()
 							+ 1}/${newDate.getDate()} ${newDate.getHours()}:00시`}
 					</div>
 					<div className="team">
-						{home ? <img className="homeLogo" alt="" src={home.logo} /> : null}
-						{away ? <img className="awayLogo" alt="" src={away.logo} /> : null}
+						{home ? <img className="homeLogo" alt="" src={homeInfo.logo} /> : null}
+						{away ? <img className="awayLogo" alt="" src={awayInfo.logo} /> : null}
 					</div>
 				</div>
-				<div className="afterBet">
+				<div className="bettingInfo">
 					<div className="options">
 						{bettingOptions.map((o, i) => (
 							<button
@@ -89,9 +99,8 @@ class DuringMatchItem extends Component {
 								onClick={this.clickBettingOption}
 								disabled
 							>
-								{`${o.homeScore} : ${o.awayScore} [${dividendMoney[i]}원, x${this.getDividendRate(
-									i
-								)}배 ]`}
+								{`${o.homeScore} : ${o.awayScore}`}
+								<p className="dividendRate">{`x${this.getDividendRate(i)}`}</p>
 							</button>
 						))}
 					</div>
@@ -99,7 +108,7 @@ class DuringMatchItem extends Component {
 				{!isBet ? (
 					<div className="label">배팅에 참여하지 않으셨습니다</div>
 				) : (
-					<div className="label isBet">{`${betMoney}원을 배팅 하셨습니다.`}</div>
+					<div className="label">{`${betMoney}원을 배팅 하셨습니다`}</div>
 				)}
 			</div>
 		);
@@ -109,7 +118,8 @@ class DuringMatchItem extends Component {
 export default connect(
 	state => ({
 		userInfoFromNaver: state.user.userInfoFromNaver,
-		userMoney: state.user.userMoney
+		userMoney: state.user.userMoney,
+		teamInfo: state.team.teamInfo
 	}),
 	dispatch => ({
 		MatchAction: bindActionCreators(matchAction, dispatch),

@@ -1,0 +1,30 @@
+/* tab */
+#tab {
+	/* position: sticky;
+	top: 0px; */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 40px;
+	background: white;
+}
+
+#tab button {
+	width: 100px;
+	border: none;
+
+	background: white;
+	cursor: pointer;
+	height: 100%;
+	box-sizing: border-box;
+	font-weight: bold;
+}
+
+#tab button:hover {
+	color: #ff6b6b;
+}
+
+#tab button.pick {
+	color: #ff6b6b;
+}

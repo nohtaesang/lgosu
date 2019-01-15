@@ -1,18 +1,30 @@
 /* nav */
 #nav {
+	/* position: sticky;
+	top: 0; */
 	display: flex;
 	width: 100%;
-	height: 50px;
+	height: 90px;
 	align-items: center;
-	justify-content: flex-end;
-	background: #eee;
+	justify-content: center;
+	background: white;
+	color: black;
 	/* color: #f5f6fa; */
-	margin-bottom: 5px;
+	/* margin-bottom: 5px; */
+	border-bottom: #eee solid 1px;
 }
 
 /* login */
+#nav #logo {
+	font-size: 24px;
+	font-weight: bold;
+}
 #nav #login {
+	position: absolute;
+	right: 0;
+	margin-right: 10px;
 	display: flex;
+	align-items: center;
 	margin-right: 10px;
 }
 
@@ -27,9 +39,14 @@
 
 /* logout */
 #nav #logout {
+	position: absolute;
+	right: 0;
+	margin-right: 10px;
 	display: flex;
 	align-items: center;
 	margin-right: 10px;
+	font-size: 12px;
+	font-weight: bold;
 }
 
 #nav #logout p {

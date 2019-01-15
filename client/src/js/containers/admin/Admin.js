@@ -4,17 +4,16 @@ import { connect } from 'react-redux';
 import * as matchAction from '../../modules/match';
 import AdminMatchItem from './AdminMatchItem';
 import MatchAddForm from './MatchAddForm';
-import Tab from './Tab';
+import './admin.css';
 
-class MatchList extends Component {
+class Admin extends Component {
 	componentDidMount() {}
 
 	render() {
 		const { matchList } = this.props;
 		return (
-			<div id="matchList">
+			<div id="admin">
 				<MatchAddForm />
-				<Tab />
 				{matchList.map((m, i) => (
 					<AdminMatchItem key={i} match={matchList[i]} />
 				))}
@@ -32,4 +31,4 @@ export default connect(
 	dispatch => ({
 		MatchAction: bindActionCreators(matchAction, dispatch)
 	})
-)(MatchList);
+)(Admin);

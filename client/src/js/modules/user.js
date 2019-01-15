@@ -18,15 +18,13 @@ export const getUserInfoFromNaver = token => ({
 	})
 });
 
-// 이메일을 이용하여 MongoDB에서 유저에 대한 정보를 가져온다
-const GET_USER_INFO_FROM_DB = 'GET_USER_INFO_FROM_DB';
-export const getUserInfoFromDB = userEmail => ({
-	type: GET_USER_INFO_FROM_DB,
-	payload: axios.post('/user/getUserInfoFromDB', {
-		userEmail
-	})
-});
+// 이메일을 이용하여 MongoDB에서 유저에 대한 정보를 가져온다+
 
+const GET_USER_INFO = 'GET_USER_INFO';
+export const getUserInfo = userEmail => ({
+	type: GET_USER_INFO,
+	payload: axios.post('/user/getUserInfo', { userEmail })
+});
 // 유저 관련 정보를 초기화 시킨다.
 const CLICK_LOGOUT = 'CLICK_LOGOUT';
 export const clickLogout = () => ({
@@ -54,29 +52,59 @@ export const changeUserMoney = (userEmail, money) => ({
 });
 
 // 유저가 참여한 배팅을 삽입한다.
-const INSERT_BETTING_LIST = 'INSERT_BETTING_LIST';
-export const insertBettingList = (userEmail, id) => ({
-	type: INSERT_BETTING_LIST,
-	payload: axios.post('/user/insertBettingList', {
+// id, category, date, home, away, myPrediction, myDividendRate, myMoney, resultPrediction, resultDividendRate,  resultMoney
+const INSERT_BETTING_RESULTS = 'INSERT_BETTING_RESULTS';
+export const insertBettingResults = (
+	userEmail,
+	id,
+	category,
+	date,
+	home,
+	away,
+	myPrediction,
+	myDividendRate,
+	myMoney,
+	resultPrediction,
+	resultDividendRate,
+	resultMoney
+) => ({
+	type: INSERT_BETTING_RESULTS,
+	payload: axios.post('/user/insertBettingResults', {
 		userEmail,
-		id
+		id,
+		category,
+		date,
+		home,
+		away,
+		myPrediction,
+		myDividendRate,
+		myMoney,
+		resultPrediction,
+		resultDividendRate,
+		resultMoney
 	})
 });
 
-// 유저가 취소한 배팅을 삭제한다
-const DELETE_BETTING_LIST = 'DELETE_BETTING_LIST';
-export const deleteBettingList = (userEmail, id) => ({
-	type: DELETE_BETTING_LIST,
-	payload: axios.post('/user/deleteBettingList', {
-		userEmail,
-		id
-	})
+// // 유저가 취소한 배팅을 삭제한다
+// const DELETE_BETTING_LIST = 'DELETE_BETTING_LIST';
+// export const deleteBettingList = (userEmail, id) => ({
+// 	type: DELETE_BETTING_LIST,
+// 	payload: axios.post('/user/deleteBettingList', {
+// 		userEmail,
+// 		id
+// 	})
+// });
+
+const SET_USER_MONEY = 'SER_USER_MONEY';
+export const setUserMoney = userMoney => ({
+	type: SET_USER_MONEY,
+	payload: userMoney
 });
 
 const initialState = {
-	naverLoginUrl: null,
 	userInfoFromNaver: null,
-	userMoney: null
+	userMoney: null,
+	userInfo: null // bettingResults를 위해 가져옴
 };
 
 export default handleActions(
@@ -86,34 +114,40 @@ export default handleActions(
 			userInfoFromNaver: null,
 			userMoney: null
 		}),
+		[SET_USER_MONEY]: (state, action) => ({
+			...state,
+			userMoney: action.payload
+		}),
 		...pender({
 			type: GET_NAVER_LOGIN_URL,
-			onSuccess: (state, action) => ({ ...state, naverLoginUrl: action.payload.data.naverLoginUrl })
+			onSuccess: (state, action) => ({ ...state })
 		}),
 		...pender({
 			type: GET_USER_INFO_FROM_NAVER,
 			onSuccess: (state, action) => ({ ...state, userInfoFromNaver: action.payload.data.response })
 		}),
 		...pender({
-			type: GET_USER_INFO_FROM_DB,
-			onSuccess: (state, action) => ({ ...state, userMoney: action.payload.data.userMoney })
+			type: GET_USER_INFO,
+			onSuccess: (state, action) => ({ ...state })
 		}),
+
 		...pender({
 			type: UPDATE_USER,
-			onSuccess: (state, action) => ({ ...state, userMoney: action.payload.data.update.userMoney })
+			onSuccess: (state, action) => ({ ...state })
 		}),
 		...pender({
 			type: CHANGE_USER_MONEY,
 			onSuccess: (state, action) => ({ ...state })
 		}),
 		...pender({
-			type: INSERT_BETTING_LIST,
-			onSuccess: (state, action) => ({ ...state })
-		}),
-		...pender({
-			type: DELETE_BETTING_LIST,
+			type: INSERT_BETTING_RESULTS,
 			onSuccess: (state, action) => ({ ...state })
 		})
+
+		// ...pender({
+		// 	type: DELETE_BETTING_LIST,
+		// 	onSuccess: (state, action) => ({ ...state })
+		// })
 	},
 	initialState
 );

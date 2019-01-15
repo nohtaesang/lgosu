@@ -1,0 +1,40 @@
+#admin {
+	width: 805px;
+	display: flex;
+	flex-wrap: wrap;
+	/* border-top: 1px solid #ff6b6b; */
+}
+
+#matchAddForm {
+	width: 100%;
+	display: flex;
+	padding: 10px;
+	border: solid 1px #ff6b6b;
+	border-radius: 6px;
+	height: 40px;
+}
+
+#matchAddForm #inputCategory {
+	width: 130px;
+}
+
+#matchAddForm #inputDate {
+	width: 130px;
+	height: 34px;
+}
+
+#matchAddForm #inputHour {
+	width: 130px;
+}
+
+#matchAddForm #inputHome {
+	width: 130px;
+}
+
+#matchAddForm #inputAway {
+	width: 130px;
+}
+
+#matchAddForm #inputAddMatchBtn {
+	width: 130px;
+}

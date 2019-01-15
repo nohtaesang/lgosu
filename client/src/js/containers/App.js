@@ -1,17 +1,27 @@
 import React from 'react';
 import DevTools from './DevTools';
 import Nav from './nav/Nav';
-import Match from './match/Match';
+import Section from './section/Section';
+import Tab from './tab/Tab';
+import Team from './Team';
 import './app.css';
 
 const App = () => (
 	<div id="app">
 		<Nav />
-		<Match />
+		<Tab />
+		<div id="section-top" />
+		<Section />
+		{/* <div id="section-bottom" /> */}
+		<div id="footer" />
+		<Team />
 		{/* <DevTools /> */}
 	</div>
 );
 
 export default App;
 
-// TODO: 내 배팅 내역 조회! (날짜, 상대, 내예상, 결과, 금액 표시). 매치 아이디로 매치 조회 후(날짜, 상대, 결과) 베팅유저스에서 유저 이메일을 검색(내예상, 금액),
+// TODO:
+// 깃 허브에 최종 커밋
+// AWS에 올리기
+// 와이고수, FM, OPGG에 올리기

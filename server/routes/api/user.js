@@ -119,60 +119,104 @@ module.exports = app => {
 		);
 	});
 
-	// BettingList에 참여한 betting을 추가한다
-	app.post('/user/insertBettingList', (req, res, next) => {
-		const { userEmail, id } = req.body;
+	// bettingResults 에 결과를 추가한다
+	app.post('/user/insertBettingResults', (req, res, next) => {
+		const {
+			userEmail,
+			id,
+			category,
+			date,
+			home,
+			away,
+			myPrediction,
+			myDividendRate,
+			myMoney,
+			resultPrediction,
+			resultDividendRate,
+			resultMoney
+		} = req.body;
 		User.findOne(
 			{
 				userEmail
 			},
-			{ bettingList: { $elemMatch: { id: id } } },
+			{ bettingResults: { $elemMatch: { id: id } } },
 			(err, user) => {
 				if (err) {
 					return res.status(500).json({ error: err });
 				}
-				if (user.bettingList.length !== 0) {
+				if (user.bettingResults.length !== 0) {
 					return res.status(404).json({ error: 'is already exist' });
 				}
 
-				user.updateOne({ $push: { bettingList: { id: id } } }, (err, user) => {
-					if (err) {
-						return res.status(500).json({ error: err });
+				user.updateOne(
+					{
+						$push: {
+							bettingResults: {
+								id,
+								category,
+								date,
+								home,
+								away,
+								myPrediction,
+								myDividendRate,
+								myMoney,
+								resultPrediction,
+								resultDividendRate,
+								resultMoney
+							}
+						}
+					},
+					(err, user) => {
+						if (err) {
+							return res.status(500).json({ error: err });
+						}
+						if (!user) {
+							return res.status(404).json({ error: 'user not found' });
+						}
+						return res.json(user);
 					}
-					if (!user) {
-						return res.status(404).json({ error: 'user not found' });
-					}
-					return res.json(user);
-				});
+				);
 			}
 		);
 	});
 
-	// bettingList에 id와 같은 값을 삭제한다
-	app.post('/user/deleteBettingList', (req, res, next) => {
-		const { userEmail, id } = req.body;
-		User.findOne(
-			{
-				userEmail
-			},
-			{ bettingList: { $elemMatch: { id: id } } },
-			(err, user) => {
-				if (err) {
-					return res.status(500).json({ error: err });
-				}
-				if (user.bettingList.length === 0) {
-					return res.status(404).json({ error: 'is not exist' });
-				}
-				user.updateOne({ $pull: { bettingList: { id: id } } }, (err, user) => {
-					if (err) {
-						return res.status(500).json({ error: err });
-					}
-					if (!user) {
-						return res.status(404).json({ error: 'user not found' });
-					}
-					return res.json(user);
-				});
-			}
-		);
+	// 유저의 정보를 가져온다
+	app.post('/user/getUserInfo', (req, res, next) => {
+		const { userEmail } = req.body;
+
+		User.findOne({ userEmail }, function(err, user) {
+			if (err) return res.status(500).send({ error: 'database failure' });
+			res.json(user);
+		});
 	});
+
+	// bettingResults로 통계를 내어 유저 값에 저장..?
+
+	// // bettingList에 id와 같은 값을 삭제한다
+	// app.post('/user/deleteBettingList', (req, res, next) => {
+	// 	const { userEmail, id } = req.body;
+	// 	User.findOne(
+	// 		{
+	// 			userEmail
+	// 		},
+	// 		{ bettingList: { $elemMatch: { id: id } } },
+	// 		(err, user) => {
+	// 			if (err) {
+	// 				return res.status(500).json({ error: err });
+	// 			}
+	// 			if (user.bettingList.length === 0) {
+	// 				return res.status(404).json({ error: 'is not exist' });
+	// 			}
+	// 			user.updateOne({ $pull: { bettingList: { id: id } } }, (err, user) => {
+	// 				if (err) {
+	// 					return res.status(500).json({ error: err });
+	// 				}
+	// 				if (!user) {
+	// 					return res.status(404).json({ error: 'user not found' });
+	// 				}
+	// 				return res.json(user);
+	// 			});
+	// 		}
+	// 	);
+	// });
 };

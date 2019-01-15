@@ -1,0 +1,138 @@
+#myRecord {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+/* recordStats */
+#myRecord #recordStatsTitle {
+	width: inherit;
+	font-size: 16px;
+	margin: 10px 0 10px 4px;
+}
+#myRecord #recordStats {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	height: 40px;
+	border: solid 1px #eee;
+	border-radius: 6px;
+	margin-bottom: 2px;
+}
+
+#myRecord #recordStats div {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0px 2px 0px 2px;
+	border-right: 1px solid #eee;
+	height: 100%;
+	width: 134px;
+}
+
+#myRecord #recordStats div#win {
+}
+#myRecord #recordStats div#lose {
+}
+#myRecord #recordStats div#winningRate {
+}
+#myRecord #recordStats div#maxDividendRate {
+}
+#myRecord #recordStats div#maxGetMoney {
+}
+#myRecord #recordStats div#maxMoney {
+	border-right: none;
+}
+
+.widthBoundary {
+	width: 100%;
+	height: 1px;
+	background: #eee;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+/* bettingResult */
+
+#myRecord #bettingResultsTitle {
+	font-size: 16px;
+	margin: 0px 0 10px 4px;
+}
+
+#myRecord .bettingResult {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	height: 40px;
+	border: 1px solid #eee;
+	border-radius: 6px;
+	margin-bottom: 5px;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+#myRecord .bettingResult .mark {
+	width: 40px;
+	color: white;
+	margin: 0;
+	font-size: 12px;
+	font-weight: bold;
+	border-radius: 6px 0px 0px 6px;
+}
+
+#myRecord .bettingResult .hit {
+	background: #087f5b;
+}
+
+#myRecord .bettingResult .fail {
+	background: #ff6b6b;
+}
+
+#myRecord .bettingResult div {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0px 2px 0px 2px;
+	height: 100%;
+	border-right: 1px solid #eee;
+}
+
+#myRecord .bettingResult div.date {
+	width: 130px;
+}
+
+#myRecord .bettingResult div.home {
+	width: 120px;
+}
+
+#myRecord .bettingResult div.away {
+	width: 120px;
+}
+#myRecord .bettingResult div.myPrediction {
+	width: 50px;
+}
+#myRecord .bettingResult div.myDividendRate {
+	width: 50px;
+}
+#myRecord .bettingResult div.myMoney {
+	width: 70px;
+}
+#myRecord .bettingResult div.resultPrediction {
+	width: 50px;
+}
+#myRecord .bettingResult div.resultDividendRate {
+	width: 50px;
+}
+#myRecord .bettingResult div.resultMoney {
+	width: 75px;
+	border-right: none;
+}
+
+#myRecord #getMoreBettingResultBtn {
+	height: 40px;
+	border-radius: 6px;
+	background: white;
+	border: none;
+	border: solid 1px #ff6b6b;
+	margin-bottom: 10px;
+}

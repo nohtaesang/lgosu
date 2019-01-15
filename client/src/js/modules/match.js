@@ -80,12 +80,13 @@ export const getMoreMatchList = () => ({
 	type: GET_MORE_MATCHES
 });
 
-// TODO: or delete
-const RESET_NUMBER_OF_MATCHES = 'RESET_NUMBER_OF_MATCHES';
-export const resetNumberOfMatches = () => ({
-	type: RESET_NUMBER_OF_MATCHES
+// matchList를 초기화한다.
+const RESET_MATCH_LIST = 'RESET_MATCH_LIST';
+export const resetMatchList = () => ({
+	type: RESET_MATCH_LIST
 });
 
+// matchOption: tab에서 바꿀 수 있다. 불러올 매치의 종류 및, 나의 기록, 랭킹으로 분기시킨다.
 const initialState = {
 	matchOption: 0,
 	matchList: [],
@@ -103,13 +104,10 @@ export default handleActions(
 			...state,
 			numberOfMatches: state.numberOfMatches + 10
 		}),
-		[RESET_NUMBER_OF_MATCHES]: (state, action) => {
-			const newNumberOfMatches = 10;
-			return {
-				...state,
-				numberOfMatches: newNumberOfMatches
-			};
-		},
+		[RESET_MATCH_LIST]: (state, action) => ({
+			...state,
+			matchList: []
+		}),
 		...pender({
 			type: GET_MATCH_LIST,
 			onSuccess: (state, action) => ({

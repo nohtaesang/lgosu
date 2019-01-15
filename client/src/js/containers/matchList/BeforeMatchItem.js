@@ -26,6 +26,7 @@ class BeforeMatchItem extends Component {
 	isBet = () => {
 		const { match, userInfoFromNaver } = this.props;
 		const { bettingUsers } = match;
+
 		const bettingUserIndex = bettingUsers.findIndex(users => users.userEmail === userInfoFromNaver.email);
 		if (bettingUserIndex === -1) {
 			return {
@@ -102,11 +103,12 @@ class BeforeMatchItem extends Component {
 			Promise.all([
 				MatchAction.bet(match._id, userInfoFromNaver.email, option, betMoney),
 				MatchAction.updateMatch(match._id, { dividendMoney: newDividendMoney }),
-				UserAction.changeUserMoney(userInfoFromNaver.email, -betMoney),
-				UserAction.insertBettingList(userInfoFromNaver.email, match._id)
+				UserAction.changeUserMoney(userInfoFromNaver.email, -betMoney)
 			])
 				.then(() => {
-					UserAction.getUserInfoFromDB(userInfoFromNaver.email);
+					UserAction.getUserInfo(userInfoFromNaver.email).then(res => {
+						UserAction.setUserMoney(res.data.userMoney);
+					});
 				})
 				.then(() => {
 					this.setState({
@@ -136,11 +138,12 @@ class BeforeMatchItem extends Component {
 			Promise.all([
 				MatchAction.cancelBet(match._id, userInfoFromNaver.email),
 				MatchAction.updateMatch(match._id, { dividendMoney: newDividendMoney }),
-				UserAction.changeUserMoney(userInfoFromNaver.email, betMoney),
-				UserAction.deleteBettingList(userInfoFromNaver.email, match._id)
+				UserAction.changeUserMoney(userInfoFromNaver.email, betMoney)
 			])
 				.then(() => {
-					UserAction.getUserInfoFromDB(userInfoFromNaver.email);
+					UserAction.getUserInfo(userInfoFromNaver.email).then(res => {
+						UserAction.setUserMoney(res.data.userMoney);
+					});
 				})
 				.then(() => {
 					this.setState({
@@ -154,27 +157,36 @@ class BeforeMatchItem extends Component {
 		}
 	};
 
-	render() {
-		const { isBet, betMoney, option, dividendMoney, dividendRate } = this.state;
-		const { match, home, away } = this.props;
-		const { date, bettingOptions } = match;
-		const newDate = new Date(date);
+	getTeamInfo = enName => {
+		const { teamInfo } = this.props;
+		for (const a of teamInfo) {
+			if (a.enName === enName) return a;
+		}
+		return false;
+	};
 
+	render() {
+		const { isBet, betMoney, option } = this.state;
+		const { match } = this.props;
+		const { date, home, away, bettingOptions } = match;
+		const homeInfo = this.getTeamInfo(home);
+		const awayInfo = this.getTeamInfo(away);
+		const newDate = new Date(date);
 		return (
 			<div className="matchItem before">
-				<div className="info">
+				<div className="matchInfo">
 					<div className="date">
 						{`${newDate.getFullYear()}/${newDate.getMonth()
 							+ 1}/${newDate.getDate()} ${newDate.getHours()}:00시`}
 					</div>
 					<div className="team">
-						{home ? <img className="homeLogo" alt="" src={home.logo} /> : null}
-						{away ? <img className="awayLogo" alt="" src={away.logo} /> : null}
+						{home ? <img className="homeLogo" alt="" src={homeInfo.logo} /> : null}
+						{away ? <img className="awayLogo" alt="" src={awayInfo.logo} /> : null}
 					</div>
 				</div>
 
 				{!isBet ? (
-					<div className="beforeBet">
+					<div className="bettingInfo">
 						<div className="options">
 							{bettingOptions.map((o, i) => (
 								<button
@@ -184,9 +196,8 @@ class BeforeMatchItem extends Component {
 									className={i === option ? 'pick' : null}
 									onClick={this.clickBettingOption}
 								>
-									{`${o.homeScore} : ${o.awayScore} [${dividendMoney[i]}원, x${this.getDividendRate(
-										i
-									)}배 ]`}
+									{`${o.homeScore} : ${o.awayScore}`}
+									<p className="dividendRate">{`x${this.getDividendRate(i)}`}</p>
 								</button>
 							))}
 						</div>
@@ -197,7 +208,7 @@ class BeforeMatchItem extends Component {
 						</button>
 					</div>
 				) : (
-					<div className="afterBet">
+					<div className="bettingInfo">
 						<div className="options">
 							{bettingOptions.map((o, i) => (
 								<button
@@ -208,9 +219,8 @@ class BeforeMatchItem extends Component {
 									onClick={this.clickBettingOption}
 									disabled
 								>
-									{`${o.homeScore} : ${o.awayScore} [${dividendMoney[i]}원, x${this.getDividendRate(
-										i
-									)}배 ]`}
+									{`${o.homeScore} : ${o.awayScore}`}
+									<p className="dividendRate">{`x${this.getDividendRate(i)}`}</p>
 								</button>
 							))}
 						</div>
@@ -231,7 +241,8 @@ export default connect(
 		matchOption: state.match.matchOption,
 		numberOfMatches: state.match.numberOfMatches,
 		userInfoFromNaver: state.user.userInfoFromNaver,
-		userMoney: state.user.userMoney
+		userMoney: state.user.userMoney,
+		teamInfo: state.team.teamInfo
 	}),
 	dispatch => ({
 		MatchAction: bindActionCreators(matchAction, dispatch),

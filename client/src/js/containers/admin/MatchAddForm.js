@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as matchAction from '../../modules/match';
 import '../../../../node_modules/react-datepicker/dist/react-datepicker.css';
 
-class ConnectedMatchAddForm extends Component {
+class MatchAddForm extends Component {
 	constructor() {
 		super();
 		this.state = {
@@ -38,12 +38,6 @@ class ConnectedMatchAddForm extends Component {
 		try {
 			await MatchAction.addMatch(category, newDate, home, away, bettingOptions, dividendMoney);
 			await MatchAction.getMatchList(numberOfMatches, matchOption);
-			// await this.setState({
-			// 	category: '',
-			// 	time: '',
-			// 	home: '',
-			// 	away: ''
-			// });
 		} catch (e) {
 			console.log('err');
 		}
@@ -78,39 +72,39 @@ class ConnectedMatchAddForm extends Component {
 	render() {
 		return (
 			<div id="matchAddForm">
-				<select onChange={this.handleChange} name="category" value={this.state.category}>
+				<select id="inputCategory" onChange={this.handleChange} name="category" value={this.state.category}>
 					<option value="">category</option>
 					<option value="lck">LCK</option>
 				</select>
-				<DatePicker selected={this.state.date} onChange={this.handleDateChange} />
-				<input onChange={this.handleChange} type="number" name="hour" value={this.state.hour} />
-				<select onChange={this.handleChange} name="home" value={this.state.home}>
+				<DatePicker id="inputDate" selected={this.state.date} onChange={this.handleDateChange} />
+				<input id="inputHour" onChange={this.handleChange} type="number" name="hour" value={this.state.hour} />
+				<select id="inputHome" onChange={this.handleChange} name="home" value={this.state.home}>
 					<option value="">home</option>
-					<option value="kt">케이티</option>
+					<option value="ktRolster">케이티 롤스터</option>
 					<option value="griffin">그리핀</option>
-					<option value="kingzone">킹존</option>
-					<option value="geng">젠지</option>
-					<option value="afreeca">아프리카</option>
-					<option value="hanhwa">한화</option>
-					<option value="skt">SKT</option>
-					<option value="jinair">진에어</option>
-					<option value="damwon">담원</option>
-					<option value="battlecomics">배틀코믹스</option>
+					<option value="kingzoneDragonX">킹존 드래곤 X</option>
+					<option value="genG">젠지</option>
+					<option value="afreecaFreecs">아프리카 프릭스</option>
+					<option value="hanwhaLife">한화 생명</option>
+					<option value="skTelecomT1">SKT Telecom T1</option>
+					<option value="jinAirGreenWings">진에어 그린윙스</option>
+					<option value="damwonGaming">담원 게이밍</option>
+					<option value="sandboxGaming">샌드박스 게이밍</option>
 				</select>
-				<select onChange={this.handleChange} name="away" value={this.state.away}>
+				<select id="inputAway" onChange={this.handleChange} name="away" value={this.state.away}>
 					<option value="">away</option>
-					<option value="kt">케이티</option>
+					<option value="ktRolster">케이티 롤스터</option>
 					<option value="griffin">그리핀</option>
-					<option value="kingzone">킹존</option>
-					<option value="geng">젠지</option>
-					<option value="afreeca">아프리카</option>
-					<option value="hanhwa">한화</option>
-					<option value="skt">SKT</option>
-					<option value="jinair">진에어</option>
-					<option value="damwon">담원</option>
-					<option value="battlecomics">배틀코믹스</option>
+					<option value="kingzoneDragonX">킹존 드래곤 X</option>
+					<option value="genG">젠지</option>
+					<option value="afreecaFreecs">아프리카 프릭스</option>
+					<option value="hanwhaLife">한화 생명</option>
+					<option value="skTelecomT1">SKT Telecom T1</option>
+					<option value="jinAirGreenWings">진에어 그린윙스</option>
+					<option value="damwonGaming">담원 게이밍</option>
+					<option value="sandboxGaming">샌드박스 게이밍</option>
 				</select>
-				<button type="submit" onClick={() => this.addMatch()}>
+				<button id="inputAddMatchBtn" type="submit" onClick={() => this.addMatch()}>
 					{'등록'}
 				</button>
 			</div>
@@ -126,4 +120,4 @@ export default connect(
 	dispatch => ({
 		MatchAction: bindActionCreators(matchAction, dispatch)
 	})
-)(ConnectedMatchAddForm);
+)(MatchAddForm);

@@ -6,14 +6,24 @@ import naverLoginIcon from './icon/naver_login_icon.PNG';
 
 class Login extends Component {
 	// 네이버 로그인 Url을 가져온다.
+	constructor() {
+		super();
+		this.state = {
+			isLoading: false,
+			naverLoginUrl: null
+		};
+	}
+
 	componentDidMount() {
 		const { UserAction } = this.props;
-		UserAction.getNaverLoginUrl();
+		UserAction.getNaverLoginUrl().then(res => {
+			this.setState({ isLoading: true, naverLoginUrl: res.data.naverLoginUrl });
+		});
 	}
 
 	render() {
-		const { naverLoginUrl } = this.props;
-		return (
+		const { isLoading, naverLoginUrl } = this.state;
+		return isLoading ? (
 			<div id="login">
 				<a href={naverLoginUrl}>
 					<div id="loginBtn" type="button">
@@ -21,13 +31,11 @@ class Login extends Component {
 					</div>
 				</a>
 			</div>
-		);
+		) : null;
 	}
 }
 
 export default connect(
-	state => ({
-		naverLoginUrl: state.user.naverLoginUrl
-	}),
+	state => ({}),
 	dispatch => ({ UserAction: bindActionCreators(userAction, dispatch) })
 )(Login);

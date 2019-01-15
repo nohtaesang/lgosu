@@ -8,7 +8,6 @@ import Logout from './Logout';
 class Nav extends Component {
 	componentDidMount() {
 		// 로그인이 되었을 때, GET Url을 읽어 토큰에 맞는 유저를 로그인 시킨 후 페이지를 다시 로드한다.
-
 		if (localStorage.getItem('token') === null) {
 			if (window.location.search.slice(0, 7) === '?token=') {
 				localStorage.setItem('token', window.location.search.slice(7));
@@ -19,7 +18,12 @@ class Nav extends Component {
 
 	render() {
 		const token = localStorage.getItem('token');
-		return <div id="nav">{token === null ? <Login /> : <Logout />}</div>;
+		return (
+			<div id="nav">
+				<p id="logo">LGOSU</p>
+				{token === null ? <Login /> : <Logout />}
+			</div>
+		);
 	}
 }
 
