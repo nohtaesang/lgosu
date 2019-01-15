@@ -17,12 +17,14 @@ class Logout extends Component {
 		const { UserAction } = this.props;
 		UserAction.getUserInfoFromNaver(localStorage.token)
 			.then(() => {
-				UserAction.getUserInfo(this.props.userInfoFromNaver.email).then(res => {
-					UserAction.setUserMoney(res.data.userMoney).catch(() => {
-						localStorage.clear();
+				if (this.props.userInfoFromNaver.email === null) {
+					localStorage.clear();
+				} else {
+					UserAction.getUserInfo(this.props.userInfoFromNaver.email).then(res => {
+						UserAction.setUserMoney(res.data.userMoney);
+						this.setState({ isLoading: true });
 					});
-					this.setState({ isLoading: true });
-				});
+				}
 			})
 			.catch(() => {
 				localStorage.clear();
