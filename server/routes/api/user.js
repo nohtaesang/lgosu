@@ -20,7 +20,7 @@ module.exports = app => {
 	app.get('/user/callback', (req, res) => {
 		const client_id = 'WyI9Zt0DgUshOZRrcaaL';
 		const client_secret = 'ZP1elynjbC';
-		const redirectURI = encodeURI('http://3.88.93.58:3000/');
+		const redirectURI = encodeURI('http://3.88.93.58:3000');
 		const code = req.query.code;
 		const state = req.query.state;
 		const naverLoginUrl =
@@ -165,22 +165,14 @@ module.exports = app => {
 		const { userEmail } = req.body;
 
 		User.findOne({ userEmail }, (err, user) => {
-			console.log(1);
 			if (err) {
-				console.log(2);
 				return res.status(500).json({ error: err });
 			}
-			console.log(3);
 
-			console.log(user);
 			if (user === null) {
-				console.log(4);
-
 				User.create({ userEmail, userMoney: 10000 });
 				return res.json({ userMoney: 10000 });
 			} else {
-				console.log(5);
-
 				return res.json(user);
 			}
 		});

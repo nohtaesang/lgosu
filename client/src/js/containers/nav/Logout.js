@@ -24,7 +24,7 @@ class Logout extends Component {
 			})
 			.catch(() => {
 				localStorage.clear();
-				window.location.href = 'http://3.88.93.58:3000/';
+				window.location.href = 'http://3.88.93.58:3000';
 			});
 	}
 
@@ -34,7 +34,7 @@ class Logout extends Component {
 		const { UserAction } = this.props;
 		localStorage.clear();
 		UserAction.clickLogout();
-		window.location.href = 'http://3.88.93.58:3000/';
+		window.location.href = 'http://3.88.93.58:3000';
 	};
 
 	render() {
