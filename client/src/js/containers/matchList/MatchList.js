@@ -18,7 +18,6 @@ class MatchList extends Component {
 
 	render() {
 		const { userInfoFromNaver, matchOption, matchList, numberOfMatches } = this.props;
-		console.log(userInfoFromNaver);
 		return userInfoFromNaver ? (
 			<div id="matchList">
 				{matchOption === 0 ? matchList.map((m, i) => <BeforeMatchItem key={i} match={m} />) : null}

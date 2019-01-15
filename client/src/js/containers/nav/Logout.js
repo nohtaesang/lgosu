@@ -20,7 +20,7 @@ class Logout extends Component {
 			.then(response => {
 				UserAction.getUserInfo(this.props.userInfoFromNaver.email).then(res => {
 					const { attendance, userMoney, maxMoney } = res.data;
-					if (res.data.attendance !== null) {
+					if (res.data.attendance === null) {
 						alert('첫 가입 10000원 지급');
 						UserAction.updateUser(this.props.userInfoFromNaver.email, { attendance: new Date() });
 						UserAction.setUserMoney(res.data.userMoney);
