@@ -165,16 +165,43 @@ module.exports = app => {
 		const { userEmail } = req.body;
 
 		User.findOne({ userEmail }, (err, user) => {
+			console.log(1);
 			if (err) {
+				console.log(2);
 				return res.status(500).json({ error: err });
 			}
+			console.log(3);
+
+			console.log(user);
 			if (user === null) {
+				console.log(4);
+
 				User.create({ userEmail, userMoney: 10000 });
 				return res.json({ userMoney: 10000 });
 			} else {
+				console.log(5);
+
 				return res.json(user);
 			}
 		});
+
+		// User.findOne(
+		// 	{
+		// 		userEmail
+		// 	},
+		// 	(err, user) => {
+		// 		if (err) {
+		// 			return res.status(500).json({ error: err });
+		// 		}
+
+		// 		if (user === null) {
+		// 			User.create({ userEmail, userMoney: 10000 });
+		// 			return res.json({ userMoney: 10000 });
+		// 		} else {
+		// 			return res.json({ userMoney: user.userMoney });
+		// 		}
+		// 	}
+		// );
 	});
 
 	// 유저가 없으면 등록하고 있음면 money를 리턴한다.
