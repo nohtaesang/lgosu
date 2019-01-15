@@ -166,10 +166,9 @@ module.exports = app => {
 
 		User.findOne({ userEmail }, function(err, user) {
 			if ((err, user)) {
-				if (userEmail === null) {
-					return res.json({ userMoney: 10000 });
+				if (err) {
+					return res.status(500).json({ error: err });
 				}
-				console.log(user);
 				if (user === null) {
 					User.create({ userEmail, userMoney: 10000 });
 					return res.json({ userMoney: 10000 });
