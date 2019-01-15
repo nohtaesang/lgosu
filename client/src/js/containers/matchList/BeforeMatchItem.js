@@ -49,7 +49,6 @@ class BeforeMatchItem extends Component {
 		if (curDate >= matchDate) {
 			MatchAction.updateMatch(match._id, { bettingState: 1 }).then(() => {
 				if (match.bettingState === 0) {
-					// window.location.href = 'http://14.39.199.54:3000/';
 					MatchAction.getMatchList(numberOfMatches, matchOption);
 				}
 			});
