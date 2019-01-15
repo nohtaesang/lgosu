@@ -100,11 +100,6 @@ module.exports = app => {
 		const { userEmail, update } = req.body;
 		User.updateOne({ userEmail }, update, err => {
 			if (err) {
-				if (userEmail === null) {
-					User.create({ userEmail, userMoney: 10000 });
-					return res.json({ userMoney: 10000 });
-				}
-
 				return res.json({ success: false, error: err });
 			}
 			return res.json({ update });
@@ -192,7 +187,15 @@ module.exports = app => {
 		const { userEmail } = req.body;
 
 		User.findOne({ userEmail }, function(err, user) {
-			if (err) return res.status(500).send({ error: 'database failure' });
+			if (err) {
+				if (userEmail === null) {
+					User.create({ userEmail, userMoney: 10000 });
+					return res.json({ userMoney: 10000 });
+				}
+
+				return res.status(500).send({ error: 'database failure' });
+			}
+
 			res.json(user);
 		});
 	});
