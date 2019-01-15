@@ -17,7 +17,7 @@ class MatchList extends Component {
 	};
 
 	render() {
-		const { userInfoFromNaver, matchOption, matchList, numberOfMatches, loading } = this.props;
+		const { userInfoFromNaver, matchOption, matchList, numberOfMatches } = this.props;
 		console.log(userInfoFromNaver);
 		return userInfoFromNaver ? (
 			<div id="matchList">
@@ -42,11 +42,10 @@ class MatchList extends Component {
 
 export default connect(
 	state => ({
-		userInfoFromNaver: state.match.userInfoFromNaver,
+		userInfoFromNaver: state.user.userInfoFromNaver,
 		matchOption: state.match.matchOption,
 		matchList: state.match.matchList,
-		numberOfMatches: state.match.numberOfMatches,
-		loading: state.pender.pending.GET_MATCH_LIST
+		numberOfMatches: state.match.numberOfMatches
 	}),
 	dispatch => ({
 		MatchAction: bindActionCreators(matchAction, dispatch)
