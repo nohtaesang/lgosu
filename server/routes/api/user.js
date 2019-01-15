@@ -74,32 +74,39 @@ module.exports = app => {
 	});
 
 	// 유저가 없으면 등록하고 있음면 money를 리턴한다.
-	app.post('/user/getUserInfoFromDB', (req, res) => {
-		const { userEmail } = req.body;
-		User.findOne(
-			{
-				userEmail
-			},
-			(err, user) => {
-				if (err) {
-					return res.status(500).json({ error: err });
-				}
+	// app.post('/user/getUserInfoFromDB', (req, res) => {
+	// 	const { userEmail } = req.body;
+	// 	User.findOne(
+	// 		{
+	// 			userEmail
+	// 		},
+	// 		(err, user) => {
+	// 			if (err) {
+	// 				return res.status(500).json({ error: err });
+	// 			}
 
-				if (user === null) {
-					User.create({ userEmail, userMoney: 10000 });
-					return res.json({ userMoney: 10000 });
-				} else {
-					return res.json({ userMoney: user.userMoney });
-				}
-			}
-		);
-	});
+	// 			if (user === null) {
+	// 				User.create({ userEmail, userMoney: 10000 });
+	// 				return res.json({ userMoney: 10000 });
+	// 			} else {
+	// 				return res.json({ userMoney: user.userMoney });
+	// 			}
+	// 		}
+	// 	);
+	// });
 
 	// 유저의 정보를 update 시킨다.
 	app.post('/user/updateUser', (req, res, next) => {
 		const { userEmail, update } = req.body;
 		User.updateOne({ userEmail }, update, err => {
-			if (err) return res.json({ success: false, error: err });
+			if (err) {
+				if (userEmail === null) {
+					User.create({ userEmail, userMoney: 10000 });
+					return res.json({ userMoney: 10000 });
+				}
+
+				return res.json({ success: false, error: err });
+			}
 			return res.json({ update });
 		});
 	});
