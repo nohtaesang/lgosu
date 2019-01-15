@@ -9,7 +9,8 @@ var UserSchema = new mongoose.Schema({
 	winningRate: { type: Number, default: 0 },
 	maxDividendRate: { type: Number, default: 0 },
 	maxGetMoney: { type: Number, default: 0 },
-	maxMoney: { type: Number, default: 10000 }
+	maxMoney: { type: Number, default: 10000 },
+	attendance: { type: String, default: null }
 });
 
 UserSchema.statics.create = function(payload) {

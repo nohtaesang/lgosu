@@ -13,14 +13,34 @@ class Logout extends Component {
 	}
 
 	// 토큰을 이용하여 유저의 이메일을 가져온다.
+	// 출석을 확인하여 돈을 지급한다.
 	componentDidMount() {
 		const { UserAction } = this.props;
 		UserAction.getUserInfoFromNaver(localStorage.token)
 			.then(response => {
 				UserAction.getUserInfo(this.props.userInfoFromNaver.email).then(res => {
-					UserAction.setUserMoney(res.data.userMoney);
-					console.log(this.props.userInfoFromNaver);
-					this.setState({ isLoading: true });
+					const { attendance, userMoney, maxMoney } = res.data;
+					if (res.data.attendance !== null) {
+						alert('첫 가입 10000원 지급');
+						UserAction.updateUser(this.props.userInfoFromNaver.email, { attendance: new Date() });
+						UserAction.setUserMoney(res.data.userMoney);
+						this.setState({ isLoading: true });
+					} else {
+						const beforeLoginDate = new Date(res.data.attendance);
+						const curLoginDate = new Date();
+						if (
+							beforeLoginDate.getDate() !== curLoginDate.getDate()
+							&& beforeLoginDate.getMonth() !== curLoginDate.getMonth()
+						) {
+							alert('출석 2000원 지급');
+							UserAction.updateUser(this.props.userInfoFromNaver.email, {
+								attendance: curLoginDate,
+								userMoney: res.data.userMoney + 2000
+							});
+							UserAction.setUserMoney(res.data.userMoney + 2000);
+							this.setState({ isLoading: true });
+						}
+					}
 				});
 			})
 			.catch(() => {
