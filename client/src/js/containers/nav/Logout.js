@@ -15,8 +15,10 @@ class Logout extends Component {
 	// 토큰을 이용하여 유저의 이메일을 가져온다.
 	componentDidMount() {
 		const { UserAction } = this.props;
+		console.log(localStorage.token);
 		UserAction.getUserInfoFromNaver(localStorage.token)
 			.then(() => {
+				console.log(this.props.userInfoFromNaver);
 				UserAction.getUserInfo(this.props.userInfoFromNaver.email).then(res => {
 					UserAction.setUserMoney(res.data.userMoney);
 					this.setState({ isLoading: true });
