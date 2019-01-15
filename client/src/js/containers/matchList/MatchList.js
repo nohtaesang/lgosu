@@ -18,7 +18,6 @@ class MatchList extends Component {
 
 	render() {
 		const { userInfoFromNaver, matchOption, matchList, numberOfMatches, loading } = this.props;
-		console.log(this.props);
 		console.log(userInfoFromNaver);
 		return userInfoFromNaver ? (
 			<div id="matchList">
