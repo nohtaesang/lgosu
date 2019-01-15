@@ -18,6 +18,8 @@ class Logout extends Component {
 		UserAction.getUserInfoFromNaver(localStorage.token)
 			.then(() => {
 				UserAction.getUserInfo(this.props.userInfoFromNaver.email).then(res => {
+					console.log(res);
+					console.log(this.props.userInfoFromNaver.email);
 					console.log(res.data);
 					UserAction.setUserMoney(res.data.userMoney);
 					this.setState({ isLoading: true });
