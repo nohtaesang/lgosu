@@ -73,28 +73,6 @@ module.exports = app => {
 		});
 	});
 
-	// 유저가 없으면 등록하고 있음면 money를 리턴한다.
-	// app.post('/user/getUserInfoFromDB', (req, res) => {
-	// 	const { userEmail } = req.body;
-	// 	User.findOne(
-	// 		{
-	// 			userEmail
-	// 		},
-	// 		(err, user) => {
-	// 			if (err) {
-	// 				return res.status(500).json({ error: err });
-	// 			}
-
-	// 			if (user === null) {
-	// 				User.create({ userEmail, userMoney: 10000 });
-	// 				return res.json({ userMoney: 10000 });
-	// 			} else {
-	// 				return res.json({ userMoney: user.userMoney });
-	// 			}
-	// 		}
-	// 	);
-	// });
-
 	// 유저의 정보를 update 시킨다.
 	app.post('/user/updateUser', (req, res, next) => {
 		const { userEmail, update } = req.body;
@@ -187,18 +165,42 @@ module.exports = app => {
 		const { userEmail } = req.body;
 
 		User.findOne({ userEmail }, function(err, user) {
-			if (err) {
+			if ((err, user)) {
 				if (userEmail === null) {
-					User.create({ userEmail, userMoney: 10000 });
 					return res.json({ userMoney: 10000 });
 				}
 
-				return res.status(500).send({ error: 'database failure' });
+				if (user === null) {
+					User.create({ userEmail, userMoney: 10000 });
+					return res.json({ userMoney: 10000 });
+				} else {
+					return res.json(user);
+				}
 			}
-
-			res.json(user);
 		});
 	});
+
+	// 유저가 없으면 등록하고 있음면 money를 리턴한다.
+	// app.post('/user/getUserInfoFromDB', (req, res) => {
+	// 	const { userEmail } = req.body;
+	// 	User.findOne(
+	// 		{
+	// 			userEmail
+	// 		},
+	// 		(err, user) => {
+	// 			if (err) {
+	// 				return res.status(500).json({ error: err });
+	// 			}
+
+	// 			if (user === null) {
+	// 				User.create({ userEmail, userMoney: 10000 });
+	// 				return res.json({ userMoney: 10000 });
+	// 			} else {
+	// 				return res.json({ userMoney: user.userMoney });
+	// 			}
+	// 		}
+	// 	);
+	// });
 
 	// bettingResults로 통계를 내어 유저 값에 저장..?
 
