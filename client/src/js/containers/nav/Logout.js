@@ -20,14 +20,11 @@ class Logout extends Component {
 			.then(response => {
 				UserAction.getUserInfo(this.props.userInfoFromNaver.email).then(res => {
 					const { attendance, userMoney, maxMoney } = res.data;
-					if (res.data.attendance === null) {
-						alert('첫 가입 10000원 지급');
-						UserAction.updateUser(this.props.userInfoFromNaver.email, { attendance: new Date() });
-						UserAction.setUserMoney(res.data.userMoney);
-						this.setState({ isLoading: true });
-					} else {
+					if (res.data.attendance !== null) {
 						const beforeLoginDate = new Date(res.data.attendance);
 						const curLoginDate = new Date();
+						console.log(beforeLoginDate.getDate());
+						console.log(curLoginDate.getDate());
 						if (
 							beforeLoginDate.getDate() !== curLoginDate.getDate()
 							&& beforeLoginDate.getMonth() !== curLoginDate.getMonth()
@@ -38,8 +35,11 @@ class Logout extends Component {
 								userMoney: res.data.userMoney + 2000
 							});
 							UserAction.setUserMoney(res.data.userMoney + 2000);
-							this.setState({ isLoading: true });
+						} else {
+							UserAction.setUserMoney(res.data.userMoney);
 						}
+
+						this.setState({ isLoading: true });
 					}
 				});
 			})
