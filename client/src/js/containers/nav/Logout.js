@@ -23,8 +23,6 @@ class Logout extends Component {
 					if (res.data.attendance !== null) {
 						const beforeLoginDate = new Date(res.data.attendance);
 						const curLoginDate = new Date();
-						console.log(beforeLoginDate.getDate());
-						console.log(curLoginDate.getDate());
 						if (
 							beforeLoginDate.getDate() !== curLoginDate.getDate()
 							&& beforeLoginDate.getMonth() !== curLoginDate.getMonth()

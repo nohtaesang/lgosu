@@ -20,7 +20,7 @@ class Nav extends Component {
 		const token = localStorage.getItem('token');
 		return (
 			<div id="nav">
-				<p id="logo">LGOSU</p>
+				<p id="logo">LOL TOTO</p>
 				{token === null ? <Login /> : <Logout />}
 			</div>
 		);
