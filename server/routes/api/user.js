@@ -164,17 +164,15 @@ module.exports = app => {
 	app.post('/user/getUserInfo', (req, res, next) => {
 		const { userEmail } = req.body;
 
-		User.findOne({ userEmail }, function(err, user) {
-			if ((err, user)) {
-				if (err) {
-					return res.status(500).json({ error: err });
-				}
-				if (user === null) {
-					User.create({ userEmail, userMoney: 10000 });
-					return res.json({ userMoney: 10000 });
-				} else {
-					return res.json(user);
-				}
+		User.findOne({ userEmail }, (err, user) => {
+			if (err) {
+				return res.status(500).json({ error: err });
+			}
+			if (user === null) {
+				User.create({ userEmail, userMoney: 10000 });
+				return res.json({ userMoney: 10000 });
+			} else {
+				return res.json(user);
 			}
 		});
 	});
