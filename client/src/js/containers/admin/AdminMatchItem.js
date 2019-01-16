@@ -26,9 +26,12 @@ class AdminMatchItem extends Component {
 		if (bettingState === 2) {
 			if (option === null) return;
 			await this.dividendPayout();
+			await MatchAction.updateMatch(match._id, { bettingState });
+			await MatchAction.getMatchList(numberOfMatches, matchOption);
+		} else {
+			await MatchAction.updateMatch(match._id, { bettingState });
+			await MatchAction.getMatchList(numberOfMatches, matchOption);
 		}
-		await MatchAction.updateMatch(match._id, { bettingState });
-		await MatchAction.getMatchList(numberOfMatches, matchOption);
 	};
 
 	// 클릭으로 state의 option을 변경
