@@ -18,7 +18,6 @@ class AfterMatchItem extends Component {
 
 	componentDidMount() {
 		const { match } = this.props;
-		this.isDuringMatch();
 		this.setState(Object.assign(this.isBet(), { dividendMoney: match.dividendMoney }));
 	}
 
@@ -41,17 +40,7 @@ class AfterMatchItem extends Component {
 		};
 	};
 
-	// 시간을 체크 한 후 경기중일경우 true를 반환한다. 그리고 match의 bettingState를 변경한다.
-	isDuringMatch = () => {
-		const { MatchAction, match } = this.props;
-		const curDate = new Date();
-		const matchDate = new Date(match.date);
-		if (curDate >= matchDate) {
-			MatchAction.updateMatch(match._id, { bettingState: 1 });
-		}
 
-		return curDate >= matchDate;
-	};
 
 	// match 정보에서 userBettings의 값으로 배당률을 계산하여 state의 dividendRate를 정한다.
 	getDividendRate = index => {
