@@ -25,7 +25,7 @@ class Logout extends Component {
 						const curLoginDate = new Date();
 						if (
 							beforeLoginDate.getDate() !== curLoginDate.getDate()
-							&& beforeLoginDate.getMonth() !== curLoginDate.getMonth()
+							&& beforeLoginDate.getDay() !== curLoginDate.getDay()
 						) {
 							alert('출석 2000원 지급');
 							UserAction.updateUser(this.props.userInfoFromNaver.email, {
