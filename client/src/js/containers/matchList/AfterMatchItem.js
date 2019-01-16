@@ -40,8 +40,6 @@ class AfterMatchItem extends Component {
 		};
 	};
 
-
-
 	// match 정보에서 userBettings의 값으로 배당률을 계산하여 state의 dividendRate를 정한다.
 	getDividendRate = index => {
 		const { dividendMoney } = this.state;
