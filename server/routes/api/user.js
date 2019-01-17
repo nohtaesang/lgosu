@@ -4,7 +4,7 @@ module.exports = app => {
 	// 네이버 로그인 url을 리턴한다.
 	app.get('/user/getNaverLoginUrl', (req, res, next) => {
 		const client_id = 'WyI9Zt0DgUshOZRrcaaL';
-		const redirectURI = encodeURI('http://3.88.93.58:3001/user/callback');
+		const redirectURI = encodeURI('http://loltoto.com:3001/user/callback');
 		var state = 'RAMDOM_STATE';
 		const naverLoginUrl =
 			'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' +
@@ -20,7 +20,7 @@ module.exports = app => {
 	app.get('/user/callback', (req, res) => {
 		const client_id = 'WyI9Zt0DgUshOZRrcaaL';
 		const client_secret = 'ZP1elynjbC';
-		const redirectURI = encodeURI('http://3.88.93.58');
+		const redirectURI = encodeURI('http://loltoto.com');
 		const code = req.query.code;
 		const state = req.query.state;
 		const naverLoginUrl =
@@ -44,7 +44,7 @@ module.exports = app => {
 			if (!error && response.statusCode === 200) {
 				const { access_token } = JSON.parse(body);
 				res.statusCode = 302;
-				res.setHeader('Location', 'http://3.88.93.58/?token=' + access_token);
+				res.setHeader('Location', 'http://loltoto.com/?token=' + access_token);
 				res.end();
 			} else {
 				res.statusCode(response.statusCode).end();

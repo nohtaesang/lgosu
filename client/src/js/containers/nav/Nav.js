@@ -11,7 +11,7 @@ class Nav extends Component {
 		if (localStorage.getItem('token') === null) {
 			if (window.location.search.slice(0, 7) === '?token=') {
 				localStorage.setItem('token', window.location.search.slice(7));
-				window.location.href = 'http://3.88.93.58';
+				window.location.href = 'http://loltoto.com';
 			}
 		}
 	}

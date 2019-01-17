@@ -43,7 +43,7 @@ class Logout extends Component {
 			})
 			.catch(() => {
 				localStorage.clear();
-				window.location.href = 'http://3.88.93.58';
+				window.location.href = 'http://loltoto.com';
 			});
 	}
 
@@ -53,7 +53,7 @@ class Logout extends Component {
 		const { UserAction } = this.props;
 		localStorage.clear();
 		UserAction.clickLogout();
-		window.location.href = 'http://3.88.93.58';
+		window.location.href = 'http://loltoto.com';
 	};
 
 	render() {
