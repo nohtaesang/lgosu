@@ -46,11 +46,9 @@ class BeforeMatchItem extends Component {
 		const { MatchAction, match, numberOfMatches, matchOption } = this.props;
 		const curDate = new Date();
 		const matchDate = new Date(match.date);
-		if (curDate >= matchDate) {
+		if (curDate >= matchDate && match.bettingState === 0) {
 			MatchAction.updateMatch(match._id, { bettingState: 1 }).then(() => {
-				if (match.bettingState === 0) {
-					MatchAction.getMatchList(numberOfMatches, matchOption);
-				}
+				MatchAction.getMatchList(numberOfMatches, matchOption);
 			});
 		}
 
