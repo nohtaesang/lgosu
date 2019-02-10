@@ -1,5 +1,18 @@
 
+## League of legend betting web site
+<link>http://loltoto.com/</link>
+LCK 의 승부를 예측하여 게임 머니를 걸고 결과에 따라 보상을 받을 수 있는 웹 사이트 
+ 
+## Motivation
+실제 서비스가 있는 프로젝트를 만들고 싶었다. 평소에 LCK를 보는 것을 즐겨했고 내가 승부를 얼마나 잘 맞추는지 궁금했다. 그것을 기록하기 위해 사이트를 만들었다.
 
+## Tech/framework used
+```
+Front-end: react, redux, redux-thunk, redux-pender, axios
+Back-end: node.js, express, mongodb 
+```
+
+## Screenshots
 ![1](https://user-images.githubusercontent.com/31440203/52531515-0e326100-2d5a-11e9-902f-e3a5011c3856.PNG)
 ![2](https://user-images.githubusercontent.com/31440203/52531516-0e326100-2d5a-11e9-8ad5-9b9802eccacc.PNG)
 ![3](https://user-images.githubusercontent.com/31440203/52531517-0e326100-2d5a-11e9-99fe-691daf20a1e5.PNG)
