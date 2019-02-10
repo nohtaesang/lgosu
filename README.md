@@ -10,7 +10,7 @@ LCK 의 승부를 예측하여 게임 머니를 걸고 결과에 따라 보상�
 ## Tech/framework used
 ```
 Front-end: react, redux, redux-thunk, redux-pender, axios
-Back-end: node.js, express, mongodb 
+Back-end: node.js, express, mongodb, aws-ec2 
 ```
 
 ## Screenshots
