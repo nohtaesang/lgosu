@@ -1,6 +1,6 @@
 
 ## League of legend betting web site
-<link>http://loltoto.com/</link>
+<del>[http://loltoto.com/](http://loltoto.com/)</link></del>(현재 인스턴스 정지 상태)
 <br>
 LCK 의 승부를 예측하여 게임 머니를 걸고 결과에 따라 보상을 받을 수 있는 웹 사이트 
  
